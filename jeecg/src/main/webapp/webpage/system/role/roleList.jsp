@@ -17,9 +17,9 @@
 	<t:dgFunOpt funname="setfunbyrole(id,roleName)" title="permission.set" urlclass="ace_button" urlStyle="background-color:#18a689;"  urlfont="fa-cog"></t:dgFunOpt>
 	<t:dgToolBar title="common.add.param" langArg="common.role" icon="fa fa-plus" url="roleController.do?addorupdate" funname="add"></t:dgToolBar>
 	<t:dgToolBar title="common.edit.param" langArg="common.role" icon="fa fa-edit" url="roleController.do?addorupdate" funname="update"></t:dgToolBar>
-	<t:dgToolBar title="excelImport" icon="fa fa-arrow-circle-left" funname="ImportXls"></t:dgToolBar>
-	<t:dgToolBar title="excelOutput" icon="fa fa-arrow-circle-right" funname="ExportXls"></t:dgToolBar>
-	<t:dgToolBar title="templateDownload" icon="fa fa-arrow-circle-o-down" funname="ExportXlsByT"></t:dgToolBar>
+    <%--<t:dgToolBar title="excelImport" icon="fa fa-arrow-circle-left" funname="ImportXls"></t:dgToolBar>
+    <t:dgToolBar title="excelOutput" icon="fa fa-arrow-circle-right" funname="ExportXls"></t:dgToolBar>
+    <t:dgToolBar title="templateDownload" icon="fa fa-arrow-circle-o-down" funname="ExportXlsByT"></t:dgToolBar>--%>
 	<t:dgToolBar title="重置用户权限缓存" icon="fa  fa-refresh" funname="refresh"></t:dgToolBar>
 </t:datagrid></div>
 </div>
@@ -37,7 +37,7 @@ function setfunbyrole(id,roleName) {
 		}
 	);
 	//$('#function-panel').panel("refresh" );
-	
+
 }
 
 function userListbyrole(id,roleName) {
@@ -48,7 +48,7 @@ function userListbyrole(id,roleName) {
 		}
 	);
 	//$('#function-panel').panel("refresh" );
-	
+
 }
 
 //删除角色

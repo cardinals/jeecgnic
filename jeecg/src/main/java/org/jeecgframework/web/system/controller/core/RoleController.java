@@ -1,43 +1,14 @@
 package org.jeecgframework.web.system.controller.core;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
-import org.jeecgframework.core.common.model.json.AjaxJson;
-import org.jeecgframework.core.common.model.json.ComboTree;
-import org.jeecgframework.core.common.model.json.DataGrid;
-import org.jeecgframework.core.common.model.json.TreeGrid;
-import org.jeecgframework.core.common.model.json.ValidForm;
+import org.jeecgframework.core.common.model.json.*;
 import org.jeecgframework.core.constant.Globals;
-import org.jeecgframework.core.util.ExceptionUtil;
-import org.jeecgframework.core.util.LogUtil;
-import org.jeecgframework.core.util.MutiLangUtil;
-import org.jeecgframework.core.util.MyBeanUtils;
-import org.jeecgframework.core.util.NumberComparator;
-import org.jeecgframework.core.util.ResourceUtil;
-import org.jeecgframework.core.util.SetListSort;
-import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.core.util.*;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.ImportParams;
@@ -45,15 +16,7 @@ import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.tag.vo.easyui.ComboTreeModel;
 import org.jeecgframework.tag.vo.easyui.TreeGridModel;
-import org.jeecgframework.web.system.pojo.base.TSDataRule;
-import org.jeecgframework.web.system.pojo.base.TSDepart;
-import org.jeecgframework.web.system.pojo.base.TSFunction;
-import org.jeecgframework.web.system.pojo.base.TSOperation;
-import org.jeecgframework.web.system.pojo.base.TSRole;
-import org.jeecgframework.web.system.pojo.base.TSRoleFunction;
-import org.jeecgframework.web.system.pojo.base.TSRoleOrg;
-import org.jeecgframework.web.system.pojo.base.TSRoleUser;
-import org.jeecgframework.web.system.pojo.base.TSUser;
+import org.jeecgframework.web.system.pojo.base.*;
 import org.jeecgframework.web.system.service.CacheServiceI;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
@@ -69,13 +32,18 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.alibaba.fastjson.JSON;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.*;
 
 /**
  * 角色处理类
- * 
+ *
  * @author 张代浩
- * 
+ *
  */
 //@Scope("prototype")
 @Controller
@@ -107,8 +75,8 @@ public class RoleController extends BaseController {
 
 	/**
 	 * 角色列表页面跳转
-	 * 
-	 * @return
+     *
+     * @return
 	 */
 	@RequestMapping(params = "role")
 	public ModelAndView role() {
@@ -117,8 +85,8 @@ public class RoleController extends BaseController {
 
 	/**
 	 * easyuiAJAX请求数据
-	 * 
-	 * @param request
+     *
+     * @param request
 	 * @param response
 	 * @param dataGrid
 	 */
@@ -159,7 +127,7 @@ public class RoleController extends BaseController {
 		return ajaxJson;
 	}
 
-	
+
 	/**
 	 * 清空登录用户权限缓存
 	 */
@@ -180,9 +148,8 @@ public class RoleController extends BaseController {
 
 	/**
 	 * 删除角色
-	 * 
-	 * @param ids
-	 * @return
+     *
+     * @return
 	 */
 	@RequestMapping(params = "delRole")
 	@ResponseBody
@@ -211,8 +178,8 @@ public class RoleController extends BaseController {
 
 	/**
 	 * 检查角色
-	 * 
-	 * @param role
+     *
+     * @param role
 	 * @return
 	 */
 	@RequestMapping(params = "checkRole")
@@ -234,8 +201,8 @@ public class RoleController extends BaseController {
 
 	/**
 	 * 删除角色权限
-	 * 
-	 * @param role
+     *
+     * @param role
 	 */
 	protected void delRoleFunction(TSRole role) {
 		List<TSRoleFunction> roleFunctions = systemService.findByProperty(
@@ -254,8 +221,8 @@ public class RoleController extends BaseController {
 
 	/**
 	 * 角色录入
-	 * 
-	 * @param role
+     *
+     * @param role
 	 * @return
 	 */
 	@RequestMapping(params = "saveRole")
@@ -285,8 +252,8 @@ public class RoleController extends BaseController {
 
 	/**
 	 * 角色列表页面跳转
-	 * 
-	 * @return
+     *
+     * @return
 	 */
 	@RequestMapping(params = "fun")
 	public ModelAndView fun(HttpServletRequest request) {
@@ -298,8 +265,8 @@ public class RoleController extends BaseController {
 	/**
 
 	 * 角色所有用户信息列表页面跳转
-	 * 
-	 * @return
+     *
+     * @return
 	 */
 	@RequestMapping(params = "userList")
 	public ModelAndView userList(HttpServletRequest request) {
@@ -308,10 +275,10 @@ public class RoleController extends BaseController {
 
 		return new ModelAndView("system/role/roleUserList");
 	}
-	
+
 	/**
-	 * 用户列表查询 
-	 * @param request
+     * 用户列表查询
+     * @param request
 	 * @param response
 	 * @param dataGrid
 	 */
@@ -351,14 +318,12 @@ public class RoleController extends BaseController {
 		this.systemService.getDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
 	}
-	
+
 	/**
 	 * 获取用户列表
-	 * 
-	 * @param user
+     *
+     * @param user
 	 * @param request
-	 * @param response
-	 * @param dataGrid
 	 * @return
 	 */
 	@RequestMapping(params = "getUserList")
@@ -384,8 +349,8 @@ public class RoleController extends BaseController {
 
 	/**
 	 * 角色树列表页面跳转
-	 * 
-	 * @return
+     *
+     * @return
 	 */
 	@RequestMapping(params = "roleTree")
 	public ModelAndView roleTree(HttpServletRequest request) {
@@ -395,8 +360,8 @@ public class RoleController extends BaseController {
 
 	/**
 	 * 获取 组织机构的角色树
-	 * 
-	 * @param request
+     *
+     * @param request
 	 *            request
 	 * @return 组织机构的角色树
 	 */
@@ -423,8 +388,8 @@ public class RoleController extends BaseController {
 
 	/**
 	 * 更新 组织机构的角色列表
-	 * 
-	 * @param request
+     *
+     * @param request
 	 *            request
 	 * @return 操作结果
 	 */
@@ -464,8 +429,8 @@ public class RoleController extends BaseController {
 
 	/**
 	 * 设置权限
-	 * 
-	 * @param role
+     *
+     * @param role
 	 * @param request
 	 * @param comboTree
 	 * @return
@@ -511,8 +476,8 @@ public class RoleController extends BaseController {
 		loginActionlist.clear();
 		loginActionlist = null;
 
-		//System.out.println(JSON.toJSONString(comboTrees,true));		
-		return comboTrees;
+        //System.out.println(JSON.toJSONString(comboTrees,true));
+        return comboTrees;
 	}
 
 	private List<ComboTree> comboTree(List<TSFunction> all, ComboTreeModel comboTreeModel, List<TSFunction> in, boolean recursive) {
@@ -524,7 +489,7 @@ public class RoleController extends BaseController {
 		return trees;
 
 	}
-	
+
 	/**
      * 构建ComboTree
      * @param obj
@@ -539,10 +504,9 @@ public class RoleController extends BaseController {
 		String id = oConvertUtils.getString(obj.getId());
 		tree.setId(id);
 		tree.setText(oConvertUtils.getString(obj.getFunctionName()));
-		
-		
-		
-		if (in == null) {
+
+
+        if (in == null) {
 		} else {
 			if (in.size() > 0) {
 				for (TSFunction inobj : in) {
@@ -559,16 +523,16 @@ public class RoleController extends BaseController {
 		Collections.sort(curChildList, new Comparator<Object>(){
 			@Override
 	        public int compare(Object o1, Object o2) {
-	        	TSFunction tsFunction1=(TSFunction)o1;  
-	        	TSFunction tsFunction2=(TSFunction)o2;  
-	        	int flag=tsFunction1.getFunctionOrder().compareTo(tsFunction2.getFunctionOrder());
+                TSFunction tsFunction1 = (TSFunction) o1;
+                TSFunction tsFunction2 = (TSFunction) o2;
+                int flag=tsFunction1.getFunctionOrder().compareTo(tsFunction2.getFunctionOrder());
 	        	  if(flag==0){
 	        	   return tsFunction1.getFunctionName().compareTo(tsFunction2.getFunctionName());
 	        	  }else{
 	        	   return flag;
-	        	  }  
-	        }             
-	    });
+                  }
+            }
+        });
 
 		if (curChildList != null && curChildList.size() > 0) {
 			tree.setState("closed");
@@ -601,8 +565,8 @@ public class RoleController extends BaseController {
 
 	/**
 	 * 更新权限
-	 * 
-	 * @param request
+     *
+     * @param request
 	 * @return
 	 */
 	@RequestMapping(params = "updateAuthority")
@@ -640,8 +604,8 @@ public class RoleController extends BaseController {
 
 	/**
 	 * 权限比较
-	 * 
-	 * @param set
+     *
+     * @param set
 	 *            最新的权限列表
 	 * @param role
 	 *            当前角色
@@ -675,8 +639,8 @@ public class RoleController extends BaseController {
 
 	/**
 	 * 角色页面跳转
-	 * 
-	 * @param role
+     *
+     * @param role
 	 * @param req
 	 * @return
 	 */
@@ -691,8 +655,8 @@ public class RoleController extends BaseController {
 
 	/**
 	 * 权限操作列表
-	 * 
-	 * @param treegrid
+     *
+     * @param treegrid
 	 * @param request
 	 * @return
 	 */
@@ -722,8 +686,8 @@ public class RoleController extends BaseController {
 
 	/**
 	 * 操作录入
-	 * 
-	 * @param request
+     *
+     * @param request
 	 * @return
 	 */
 	@RequestMapping(params = "saveOperate")
@@ -772,8 +736,8 @@ public class RoleController extends BaseController {
 
 	/**
 	 * 更新操作
-	 * 
-	 * @param roleId
+     *
+     * @param roleId
 	 * @param functionid
 	 * @param ids
 	 */
@@ -796,8 +760,8 @@ public class RoleController extends BaseController {
 
 	/**
 	 * 清空操作
-	 * 
-	 * @param roleId
+     *
+     * @param roleId
 	 */
 	public void clearp(String roleId) {
 		List<TSRoleFunction> rFunctions = systemService.findByProperty(
@@ -812,8 +776,8 @@ public class RoleController extends BaseController {
 
 	/**
 	 * 按钮权限展示
-	 * 
-	 * @param request
+     *
+     * @param request
 	 * @param functionId
 	 * @param roleId
 	 * @return
@@ -836,8 +800,8 @@ public class RoleController extends BaseController {
 
 	/**
 	 * 更新按钮权限
-	 * 
-	 * @param request
+     *
+     * @param request
 	 * @return
 	 */
 	@RequestMapping(params = "updateOperation")
@@ -869,13 +833,13 @@ public class RoleController extends BaseController {
 		j.setMsg("按钮权限更新成功");
 		return j;
 	}
-	
+
 //chengchuan数据规则过滤代码
-	
-	/**
+
+    /**
 	 * 按钮权限展示
-	 * 
-	 * @param request
+     *
+     * @param request
 	 * @param functionId
 	 * @param roleId
 	 * @return
@@ -894,12 +858,12 @@ public class RoleController extends BaseController {
 		request.setAttribute("functionId", functionId);
 		return new ModelAndView("system/role/dataRuleListForFunction");
 	}
-	
-	
-	/**
+
+
+    /**
 	 * 更新按钮权限
-	 * 
-	 * @param request
+     *
+     * @param request
 	 * @return
 	 */
 	@RequestMapping(params = "updateDataRule")
@@ -931,10 +895,9 @@ public class RoleController extends BaseController {
 		j.setMsg("数据权限更新成功");
 		return j;
 	}
-	
-	
-	
-	/**
+
+
+    /**
      * 添加 用户到角色 的页面  跳转
      * @param req request
      * @return 处理结果信息
@@ -943,7 +906,7 @@ public class RoleController extends BaseController {
     public ModelAndView goAddUserToOrg(HttpServletRequest req) {
         return new ModelAndView("system/role/noCurRoleUserList");
     }
-    
+
     /**
      * 获取 除当前 角色之外的用户信息列表
      * @param request request
@@ -961,7 +924,7 @@ public class RoleController extends BaseController {
         subCq.setProjection(Property.forName("TSUser.id"));
         subCq.eq("TSRole.id", roleId);
         subCq.add();
-        
+
         cq.add(Property.forName("id").notIn(subCq.getDetachedCriteria()));
 
         cq.eq("deleteFlag", Globals.Delete_Normal);//删除状态，不删除
@@ -993,7 +956,6 @@ public class RoleController extends BaseController {
     /**
      * 保存 角色-用户 关系信息
      * @param request request
-     * @param depart depart
      */
     private void saveRoleUserList(HttpServletRequest request, TSRole role) {
         String userIds = oConvertUtils.getString(request.getParameter("userIds"));

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@page import="org.jeecgframework.core.util.SysThemesUtil,org.jeecgframework.core.enums.SysThemesEnum" %>
+<%@page import="org.jeecgframework.core.enums.SysThemesEnum,org.jeecgframework.core.util.SysThemesUtil" %>
 <%@include file="/context/mytags.jsp" %>
 <%
     session.setAttribute("lang", "zh-cn");
@@ -11,7 +11,8 @@
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta charset="utf-8"/>
-    <title><t:mutiLang langKey="jeect.platform"/></title>
+    <%--<title><t:mutiLang langKey="jeect.platform"/></title>--%>
+    <title>网管中心设备管理系统</title>
     <link rel="shortcut icon" href="images/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
     <!-- bootstrap & fontawesome -->
@@ -49,7 +50,7 @@
                     <div class="center">
                         <h1 id="id-text2" class="grey">
                             <i class="ace-icon fa fa-leaf green"></i>
-                            国资库存管理
+                            网管中心设备管理系统
                         </h1>
                         <h4 class="blue">&nbsp;</h4>
                     </div>
