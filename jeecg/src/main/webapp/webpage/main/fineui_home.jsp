@@ -155,7 +155,6 @@
     <script src="plug-in/hplus/js/bootstrap.min.js?v=3.3.6"></script>
     <!-- 自定义js -->
     <script src="plug-in/hplus/js/content.js"></script>
-    <script type="text/javascript" src="plug-in/echart/echarts.min.js"></script>
     <script type="text/javascript" src="plug-in/jquery-plugs/i18n/jquery.i18n.properties.js"></script>
     <t:base type="tools"></t:base>
 </body>

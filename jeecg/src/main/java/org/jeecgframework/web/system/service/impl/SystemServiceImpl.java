@@ -1,45 +1,14 @@
 package org.jeecgframework.web.system.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import org.jeecgframework.core.annotation.Ehcache;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 import org.jeecgframework.core.constant.Globals;
-import org.jeecgframework.core.util.BrowserUtils;
-import org.jeecgframework.core.util.ContextHolderUtils;
-import org.jeecgframework.core.util.IpUtil;
-import org.jeecgframework.core.util.MutiLangUtil;
-import org.jeecgframework.core.util.ResourceUtil;
-import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.core.util.*;
 import org.jeecgframework.web.system.dao.JeecgDictDao;
-import org.jeecgframework.web.system.pojo.base.DictEntity;
-import org.jeecgframework.web.system.pojo.base.TSDatalogEntity;
-import org.jeecgframework.web.system.pojo.base.TSDepartAuthGroupEntity;
-import org.jeecgframework.web.system.pojo.base.TSDepartAuthgFunctionRelEntity;
-import org.jeecgframework.web.system.pojo.base.TSFunction;
-import org.jeecgframework.web.system.pojo.base.TSIcon;
-import org.jeecgframework.web.system.pojo.base.TSLog;
-import org.jeecgframework.web.system.pojo.base.TSOperation;
-import org.jeecgframework.web.system.pojo.base.TSRole;
-import org.jeecgframework.web.system.pojo.base.TSRoleFunction;
-import org.jeecgframework.web.system.pojo.base.TSRoleOrg;
-import org.jeecgframework.web.system.pojo.base.TSRoleUser;
-import org.jeecgframework.web.system.pojo.base.TSType;
-import org.jeecgframework.web.system.pojo.base.TSTypegroup;
-import org.jeecgframework.web.system.pojo.base.TSUser;
+import org.jeecgframework.web.system.pojo.base.*;
 import org.jeecgframework.web.system.service.CacheServiceI;
 import org.jeecgframework.web.system.service.SystemService;
-import org.jeecgframework.web.system.util.OrgConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,10 +16,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.*;
+
 @Service("systemService")
 public class SystemServiceImpl extends CommonServiceImpl implements SystemService {
 	private static final Logger logger = LoggerFactory.getLogger(SystemServiceImpl.class);
-	
+
 	@Autowired
 	private JeecgDictDao jeecgDictDao;
 	@Autowired
@@ -134,8 +107,6 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	/**
 	 * 根据类型分组编码和名称获取TypeGroup,如果为空则创建一个
 	 *
-	 * @param typecode
-	 * @param typename
 	 * @return
 	 */
 	@Transactional(readOnly = true)
@@ -173,11 +144,11 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 			}
 			typesList.put(tsTypegroup.getTypegroupcode().toLowerCase(), types);
 		}
-		
-		cacheService.put(CacheServiceI.FOREVER_CACHE,ResourceUtil.DICT_TYPE_GROUPS_KEY,typeGroupsList);
+
+        cacheService.put(CacheServiceI.FOREVER_CACHE,ResourceUtil.DICT_TYPE_GROUPS_KEY,typeGroupsList);
 		cacheService.put(CacheServiceI.FOREVER_CACHE,ResourceUtil.DICT_TYPES_KEY,typesList);
-		
-		logger.info("  ------ 初始化字典组 【系统缓存】-----------typeGroupsList-----size: [{}]",typeGroupsList.size());
+
+        logger.info("  ------ 初始化字典组 【系统缓存】-----------typeGroupsList-----size: [{}]",typeGroupsList.size());
 		logger.info("  ------ 初始化字典 【系统缓存】-----------typesList-----size: [{}]",typesList.size());
 	}
 
@@ -223,8 +194,8 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 		cacheService.put(CacheServiceI.FOREVER_CACHE,ResourceUtil.DICT_TYPE_GROUPS_KEY,typeGroupsList);
 		logger.info("  ------ 重置字典分组缓存&字典缓存【系统缓存】  ------ refleshTypeGroupCach --------  ");
 	}
-	
-	/**
+
+    /**
 	 * 刷新字典分组缓存&字典缓存
 	 */
 	@Transactional(readOnly = true)
@@ -259,13 +230,12 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 			}
 		}
 		return operationCodes;
-	}	
+    }
 
-	
+
 	/**
 	 * 获取页面控件权限控制的
 	 * JS片段
-	 * @param out
 	 */
 	@Transactional(readOnly = true)
 	public String getAuthFilterJS() {
@@ -296,14 +266,14 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 			}else{
 				return "";
 			}
-			
-		}
+
+        }
 		out.append("});");
 		out.append("</script>");
 		return out.toString();
 	}
-	
-	@Transactional(readOnly = true)
+
+    @Transactional(readOnly = true)
 	public void flushRoleFunciton(String id, TSFunction newFunction) {
 		TSFunction functionEntity = this.getEntity(TSFunction.class, id);
 		if (functionEntity.getTSIcon() == null || !StringUtil.isNotEmpty(functionEntity.getTSIcon().getId())) {
@@ -321,8 +291,8 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 			}
 		}
 	}
-	
-	@Transactional(readOnly = true)
+
+    @Transactional(readOnly = true)
     public String generateOrgCode(String id, String pid) {
 
         int orgCodeLength = 2; // 默认编码长度
@@ -431,101 +401,6 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 		commonDao.save(tsDatalogEntity);
 	}
 
-	/**
-	 * 获取二级管理员页面控件权限授权配置【二级管理员后台权限配置功能】
-	 * @param groupId 部门角色组ID
-	 * @param functionId 选中菜单ID
-	 * @Param type 0:部门管理员组/1:部门角色
-	 * @return
-	 */
-	@Override
-	@Transactional(readOnly = true)
-	public Set<String> getDepartAuthGroupOperationSet(String groupId,String functionId,String type) {
-		Set<String> operationCodes = new HashSet<String>();
-		TSDepartAuthGroupEntity functionGroup = null;
-		if(OrgConstants.GROUP_DEPART_ROLE.equals(type)) {
-			TSRole role = commonDao.get(TSRole.class, groupId);
-			CriteriaQuery cq1 = new CriteriaQuery(TSRoleFunction.class);
-			cq1.eq("TSRole.id", role.getId());
-			cq1.eq("TSFunction.id", functionId);
-			cq1.add();
-			List<TSRoleFunction> functionGroups = getListByCriteriaQuery(cq1, false);
-			if (null != functionGroups && functionGroups.size() > 0) {
-				TSRoleFunction tsFunctionGroup = functionGroups.get(0);
-				if (null != tsFunctionGroup.getOperation()) {
-					String[] operationArry = tsFunctionGroup.getOperation().split(",");
-					for (int i = 0; i < operationArry.length; i++) {
-						operationCodes.add(operationArry[i]);
-					}
-				}
-			}
-		} else {
-			functionGroup = commonDao.get(TSDepartAuthGroupEntity.class, groupId);
-			CriteriaQuery cq1 = new CriteriaQuery(TSDepartAuthgFunctionRelEntity.class);
-			cq1.eq("tsDepartAuthGroup.id", functionGroup.getId());
-			cq1.eq("tsFunction.id", functionId);
-			cq1.add();
-			List<TSDepartAuthgFunctionRelEntity> functionGroups = getListByCriteriaQuery(cq1, false);
-			if (null != functionGroups && functionGroups.size() > 0) {
-				TSDepartAuthgFunctionRelEntity tsFunctionGroup = functionGroups.get(0);
-				if (null != tsFunctionGroup.getOperation()) {
-					String[] operationArry = tsFunctionGroup.getOperation().split(",");
-					for (int i = 0; i < operationArry.length; i++) {
-						operationCodes.add(operationArry[i]);
-					}
-				}
-			}
-		}
-		return operationCodes;
-	}
-
-	/**
-	 * 获取二级管理员数据权限授权配置【二级管理员后台权限配置功能】
-	 * @param groupId 部门角色组ID
-	 * @param functionId 选中菜单ID
-	 * @Param type  0:部门管理员组/1:部门角色
-	 * @return
-	 */
-	@Override
-	@Transactional(readOnly = true)
-	public Set<String> getDepartAuthGroupDataRuleSet(String groupId, String functionId,String type) {
-		Set<String> dataRuleCodes = new HashSet<String>();
-		TSDepartAuthGroupEntity functionGroup = null;
-		if(OrgConstants.GROUP_DEPART_ROLE.equals(type)) {
-			TSRole role = commonDao.get(TSRole.class, groupId);
-			CriteriaQuery cq1 = new CriteriaQuery(TSRoleFunction.class);
-			cq1.eq("TSRole.id", role.getId());
-			cq1.eq("TSFunction.id", functionId);
-			cq1.add();
-			List<TSRoleFunction> functionGroups = getListByCriteriaQuery(cq1, false);
-			if (null != functionGroups && functionGroups.size() > 0) {
-				TSRoleFunction tsFunctionGroup = functionGroups.get(0);
-				if (null != tsFunctionGroup.getDataRule()) {
-					String[] dataRuleArry = tsFunctionGroup.getDataRule().split(",");
-					for (int i = 0; i < dataRuleArry.length; i++) {
-						dataRuleCodes.add(dataRuleArry[i]);
-					}
-				}
-			}
-		} else {
-			functionGroup = commonDao.get(TSDepartAuthGroupEntity.class, groupId);
-			CriteriaQuery cq1 = new CriteriaQuery(TSDepartAuthgFunctionRelEntity.class);
-			cq1.eq("tsDepartAuthGroup.id", functionGroup.getId());
-			cq1.eq("tsFunction.id", functionId);
-			cq1.add();
-			List<TSDepartAuthgFunctionRelEntity> functionGroups = getListByCriteriaQuery(cq1, false);
-			if (null != functionGroups && functionGroups.size() > 0) {
-				TSDepartAuthgFunctionRelEntity tsFunctionGroup = functionGroups.get(0);
-				if (null != tsFunctionGroup.getDatarule()) {
-					String[] dataRuleArry = tsFunctionGroup.getDatarule().split(",");
-					for (int i = 0; i < dataRuleArry.length; i++) {
-						dataRuleCodes.add(dataRuleArry[i]);
-					}
-				}
-			}
-		}
-		return dataRuleCodes;
-	}
 
 	/**
 	 * 【AuthInterceptor】根据用户请求URL，查询数据库中对应的菜单ID
@@ -542,8 +417,8 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 		}else {
 			realRequestPath=url;
 		}
-		
-		//----自定义表单页面控件权限控制---------------
+
+        //----自定义表单页面控件权限控制---------------
 		if(realRequestPath.indexOf("autoFormController/af/")>-1 && realRequestPath.indexOf("?")!=-1){
 			realRequestPath = realRequestPath.substring(0, realRequestPath.indexOf("?"));
 		}
@@ -554,8 +429,8 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 		logger.debug("-----[ 读取数据库获取访问请求的菜单ID ]-------functionId: "+functionId +"------ url: "+url+"-----menuPath: "+menuPath);
 		return functionId;
 	}
-	
-	/**
+
+    /**
 	 * 【AuthInterceptor】判断用户是否有菜单访问权限
 	 * @param requestPath       用户请求URL
 	 * @param clickFunctionId   菜单ID(未使用)
@@ -572,7 +447,7 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
         if(hasMenuCount<=0){
         	return true;
         }
-        
+
         //step.2 判断菜单是否有角色权限
         Long authSize = Long.valueOf(0);
 		String sql = "SELECT count(*) FROM t_s_function f,t_s_role_function  rf,t_s_role_user ru " +
@@ -591,8 +466,8 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 			return true;
 		}
 	}
-	
-	/**
+
+    /**
 	 * 【AuthInterceptor】获取登录用户数据权限IDS
 	 */
 	@Ehcache(cacheName="sysAuthCache")
@@ -640,8 +515,8 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 		logger.debug("-----[ 读取数据库获取数据权限集合IDS ]-------dataRuleIds: "+dataRuleIds+"--------userId: "+userId+"------functionId: "+ functionId);
 		return dataRuleIds;
 	}
-	
-	/**
+
+    /**
 	 * 【AuthInterceptor】获取登录用户的页面控件权限（表单权限、按钮权限）
 	 * {逻辑说明： 查询菜单的页面控件权限，排除授权用户的页面控件权限，剩下未授权的页面控件权限}
 	 *  @param userId 		用户ID
@@ -657,8 +532,8 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 			return null;
 		}
 		List<TSRoleUser> rUsers = findByProperty(TSRoleUser.class, "TSUser.id", userId);
-		
-		for(TSRoleUser ru : rUsers){
+
+        for(TSRoleUser ru : rUsers){
 			TSRole role = ru.getTSRole();
 			CriteriaQuery cq1 = new CriteriaQuery(TSRoleFunction.class);
 			cq1.eq("TSRole.id", role.getId());
@@ -705,8 +580,8 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 			}
 		}
 
-		
-		logger.debug("-----[ 读取数据库获取操作权限集合operations ]-------operations: "+operations+"-------userId: "+userId+"------functionId: "+ functionId);
+
+        logger.debug("-----[ 读取数据库获取操作权限集合operations ]-------operations: "+operations+"-------userId: "+userId+"------functionId: "+ functionId);
 		return operations;
 	}
 }

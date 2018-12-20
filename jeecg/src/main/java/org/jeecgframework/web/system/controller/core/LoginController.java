@@ -252,6 +252,7 @@ public class LoginController extends BaseController {
                 }
                 return null;
             }
+            log.info("进去首页>>>>" + sysTheme.getIndexPath());
             return sysTheme.getIndexPath();
         } else {
             //单点登录 - 返回链接

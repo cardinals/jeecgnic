@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.*" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@include file="/context/mytags.jsp"%>
 <!DOCTYPE html>
 <html>
@@ -10,7 +10,7 @@
 	 * 选择组织机构
 	 */
 		function openDepartmentSelect() {
-			$.dialog.setting.zIndex = getzIndex(); 
+        $.dialog.setting.zIndex = getzIndex();
 			var orgIds = $("#orgIds").val();
 
 			$.dialog({
@@ -33,7 +33,7 @@
 			}).zindex();
 
 		}
-			
+
 		function callbackDepartmentSelect() {
 			  var iframe = this.iframe.contentWindow;
 			  var treeObj = iframe.$.fn.zTree.getZTreeObj("departSelect");
@@ -46,16 +46,16 @@
 			    names += node.name+',';
 			 }
 			 $('#departname').val(names);
-			 $('#departname').blur();		
-			 $('#orgIds').val(ids);		
+                  $('#departname').blur();
+                  $('#orgIds').val(ids);
 			}
 		}
-		
+
 		function callbackClean(){
 			$('#departname').val('');
-			 $('#orgIds').val('');	
-		}
-		
+            $('#orgIds').val('');
+        }
+
 		function setOrgIds() {
 			return true;
 		}
@@ -146,16 +146,10 @@
 			<td class="value">
                 <input class="inputxt" name="email" value="${user.email}"  validType="t_s_user,email,id" datatype="e" errormsg="邮箱格式不正确!" />
                 <span class="Validform_checktip"></span>
+                    <%--开发权限，默认为否0--%>
+                <input type="hidden" id="devFlag" name="devFlag" value="0"/>
             </td>
 		</tr>
-        <tr>
-            <td align="right"><label class="Validform_label"> <t:mutiLang langKey="common.common.dev"/>: </label></td>
-            <td class="value">
-
-                <t:dictSelect id="devFlag" field="devFlag" typeGroupCode="dev_flag" hasLabel="false" defaultVal="${user.devFlag==null?'0':(user.devFlag)}" type="radio"></t:dictSelect>
-                <span class="Validform_checktip"></span>
-            </td>
-        </tr>
 	</table>
 </t:formvalid>
 </body>

@@ -13,13 +13,11 @@ import org.jeecgframework.core.common.model.json.ValidForm;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.enums.SysThemesEnum;
 import org.jeecgframework.core.util.*;
-import org.jeecgframework.minidao.pojo.MiniDaoPage;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.ImportParams;
 import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
 import org.jeecgframework.tag.core.easyui.TagUtil;
-import org.jeecgframework.web.system.dao.DepartAuthGroupDao;
 import org.jeecgframework.web.system.manager.ClientManager;
 import org.jeecgframework.web.system.pojo.base.*;
 import org.jeecgframework.web.system.service.SystemService;
@@ -59,9 +57,6 @@ public class UserController extends BaseController {
     private SystemService systemService;
     @Resource
     private ClientManager clientManager;
-    @Autowired
-    private DepartAuthGroupDao departAuthGroupDao;
-
     @Autowired
     public void setSystemService(SystemService systemService) {
         this.systemService = systemService;
@@ -378,50 +373,6 @@ public class UserController extends BaseController {
         return comboBoxs;
     }
 
-    /**
-     * easyuiAJAX用户列表请求数据
-     *
-     * @param request
-     * @param response
-     * @param dataGrid
-     */
-    @RequestMapping(params = "datagridByOrgCode")
-    public void datagridByOrgCode(TSUser user, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
-        Map<String, Map<String, Object>> extMap = new HashMap<String, Map<String, Object>>();
-        String departid = request.getParameter("orgIds");
-
-        // Minidao查询条件
-        if (oConvertUtils.isNotEmpty(user.getUserName())) {
-            user.setUserName(user.getUserName().replace("*", "%"));
-        }
-        if (oConvertUtils.isNotEmpty(user.getRealName())) {
-            user.setRealName(user.getRealName().replace("*", "%"));
-        }
-
-        //获取公司编码
-        String orgCode = null;
-        if (oConvertUtils.isNotEmpty(departid)) {
-            TSDepart tsdepart = this.systemService.get(TSDepart.class, departid);
-            orgCode = tsdepart.getOrgCode();
-        }
-
-        //查询机构下用户列表
-        MiniDaoPage<TSUser> list = departAuthGroupDao.getUserByDepartCode(dataGrid.getPage(), dataGrid.getRows(), orgCode, user);
-        dataGrid.setTotal(list.getTotal());
-        dataGrid.setResults(list.getResults());
-
-        //获取用户的部门名称
-        for (TSUser u : list.getResults()) {
-            if (oConvertUtils.isNotEmpty(u.getId())) {
-                List<String> depNames = departAuthGroupDao.getUserDepartNames(u.getId());
-                // 此为针对原来的行数据，拓展的新字段
-                Map<String, Object> m = new HashMap<String, Object>();
-                m.put("orgNames", depNames != null ? depNames.toArray() : null);
-                extMap.put(u.getId(), m);
-            }
-        }
-        TagUtil.datagrid(response, dataGrid, extMap);
-    }
 
     /**
      * easyuiAJAX用户列表请求数据
@@ -1341,9 +1292,6 @@ public class UserController extends BaseController {
     /**
      * 添加、编辑我的机构用户
      *
-     * @param request
-     * @param response
-     * @param dataGrid
      * @param user
      */
     @RequestMapping(params = "addorupdateMyOrgUser")

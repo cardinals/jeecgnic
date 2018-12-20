@@ -94,10 +94,10 @@
 		<jjwt.version>0.9.0</jjwt.version>
 
 		<!-- jeecg-p3 -->
-		<jeecg-p3-core.version>1.0.0</jeecg-p3-core.version>
-		<jeecg-p3-biz-demo.version>1.0.2</jeecg-p3-biz-demo.version>
-		<jeecg-p3-biz-chat.version>1.0.5</jeecg-p3-biz-chat.version>
-		<jeecg-p3-biz-mail.version>1.0.0</jeecg-p3-biz-mail.version>
+        <!--<jeecg-p3-core.version>1.0.0</jeecg-p3-core.version>
+        <jeecg-p3-biz-demo.version>1.0.2</jeecg-p3-biz-demo.version>
+        <jeecg-p3-biz-chat.version>1.0.5</jeecg-p3-biz-chat.version>
+        <jeecg-p3-biz-mail.version>1.0.0</jeecg-p3-biz-mail.version>-->
 
 		<!--maven插件变量-->
 		<tomcat.version>2.2</tomcat.version>
@@ -564,28 +564,28 @@
 
 		<!-- Jeecg Plugin begin -->
 		<!-- p3 core -->
-		<dependency>
-			<groupId>org.jeecgframework.p3</groupId>
-			<artifactId>jeecg-p3-core-api</artifactId>
-			<version>${jeecg-p3-core.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jeecgframework.p3</groupId>
-			<artifactId>jeecg-p3-core-ui</artifactId>
-			<version>${jeecg-p3-core.version}</version>
-		</dependency>
+        <!--<dependency>
+            <groupId>org.jeecgframework.p3</groupId>
+            <artifactId>jeecg-p3-core-api</artifactId>
+            <version>${jeecg-p3-core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jeecgframework.p3</groupId>
+            <artifactId>jeecg-p3-core-ui</artifactId>
+            <version>${jeecg-p3-core.version}</version>
+        </dependency>-->
 		<!-- 插件：Demo -->
-		<dependency>
-			<groupId>org.jeecgframework.p3</groupId>
-			<artifactId>jeecg-p3-biz-demo</artifactId>
-			<version>${jeecg-p3-biz-demo.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.jeecgframework.p3</groupId>
-					<artifactId>jeecg-p3-start-quick</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
+        <!--<dependency>
+            <groupId>org.jeecgframework.p3</groupId>
+            <artifactId>jeecg-p3-biz-demo</artifactId>
+            <version>${jeecg-p3-biz-demo.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jeecgframework.p3</groupId>
+                    <artifactId>jeecg-p3-start-quick</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>-->
 
 		 <!-- 插件：在线聊天 -->
 		<!--<dependency>
@@ -601,17 +601,17 @@
 		</dependency>-->
 
 		<!-- 插件: 我的邮箱-->
-		<dependency>
-			<groupId>org.jeecgframework.p3</groupId>
-			<artifactId>jeecg-p3-biz-mail</artifactId>
-			<version>${jeecg-p3-biz-mail.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.jeecgframework.p3</groupId>
-					<artifactId>jeecg-p3-start-quick</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
+        <!--<dependency>
+            <groupId>org.jeecgframework.p3</groupId>
+            <artifactId>jeecg-p3-biz-mail</artifactId>
+            <version>${jeecg-p3-biz-mail.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jeecgframework.p3</groupId>
+                    <artifactId>jeecg-p3-start-quick</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>-->
 		<!-- Jeecg Plugin end -->
 
 		<!-- update-begin-author:taoYan date:20180828 for:jxls导出excel -->

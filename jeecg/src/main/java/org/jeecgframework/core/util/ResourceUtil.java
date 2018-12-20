@@ -1,38 +1,26 @@
 package org.jeecgframework.core.util;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.commons.lang.StringUtils;
 import org.jeecgframework.core.constant.DataBaseConstant;
-import org.jeecgframework.web.cgform.common.CgAutoListConstant;
 import org.jeecgframework.web.system.manager.ClientManager;
-import org.jeecgframework.web.system.pojo.base.Client;
-import org.jeecgframework.web.system.pojo.base.DynamicDataSourceEntity;
-import org.jeecgframework.web.system.pojo.base.TSIcon;
-import org.jeecgframework.web.system.pojo.base.TSType;
-import org.jeecgframework.web.system.pojo.base.TSTypegroup;
-import org.jeecgframework.web.system.pojo.base.TSUser;
+import org.jeecgframework.web.system.pojo.base.*;
 import org.jeecgframework.web.system.service.CacheServiceI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.*;
+
 
 /**
  * 项目参数工具类
- * 
+ *
  */
 public class ResourceUtil {
 	private static final Logger log = LoggerFactory.getLogger(ResourceUtil.class);
-	
+
 	private static CacheServiceI cacheService;
 	static {
 		cacheService = ApplicationContextUtil.getContext().getBean(CacheServiceI.class);
@@ -46,7 +34,7 @@ public class ResourceUtil {
 	public static final String MUTI_LANG_FOREVER_CACHE_KEY = "forever_cache_muti_langs";
 	/**动态数据源DB配置 缓存key*/
 	public static final String DYNAMIC_DB_CONFIGS_FOREVER_CACHE_KEY = "dynamic_db_configs_forever_cache_key";
-	
+
 	/**
 	 * 获取字典组缓存
 	 */
@@ -62,7 +50,7 @@ public class ResourceUtil {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 获取字典缓存
 	 */
@@ -82,8 +70,8 @@ public class ResourceUtil {
 	/**
 	 * 国际化【缓存】
 	 */
-//	public static Map<String, String> mutiLangMap = new HashMap<String, String>(); 
-	public static String getMutiLan(String key){
+//	public static Map<String, String> mutiLangMap = new HashMap<String, String>();
+    public static String getMutiLan(String key){
 		String result = null;
 		Object obj = cacheService.get(CacheServiceI.FOREVER_CACHE, MUTI_LANG_FOREVER_CACHE_KEY);
 		if(obj!=null){
@@ -94,7 +82,7 @@ public class ResourceUtil {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 动态数据源参数配置【缓存】
 	 */
@@ -133,16 +121,15 @@ public class ResourceUtil {
 	public static void cleanCacheBasicDataSource(){
 		dbSources.clear();
 	}
-	
+
 	/**
 	 * 缓存系统图标【缓存】
 	 */
 	public static Map<String, TSIcon> allTSIcons = new HashMap<String,TSIcon>();
 	private static final ResourceBundle bundle = java.util.ResourceBundle.getBundle("sysConfig");
-	
-	
-	
-	/**
+
+
+    /**
 	 * 属性文件[resources/sysConfig.properties]
 	 * #默认开启模糊查询方式 1为开启 条件无需带*就能模糊查询[暂时取消]
 	 * fuzzySearch=0
@@ -153,8 +140,8 @@ public class ResourceUtil {
 
 	/**
 	 * 获取session定义名称
-	 * 
-	 * @return
+     *
+     * @return
 	 */
 	public static final String getSessionattachmenttitle(String sessionName) {
 		return bundle.getString(sessionName);
@@ -176,11 +163,11 @@ public class ResourceUtil {
 
 		return null;
 	}
-	
+
 	/**
 	 * 获得请求路径【注意： 不通用】
-	 * 
-	 * @param request
+     *
+     * @param request
 	 * @return
 	 */
 	public static String getJgAuthRequsetPath(HttpServletRequest request) {
@@ -212,8 +199,8 @@ public class ResourceUtil {
 
 	/**
 	 * 获取配置文件参数
-	 * 
-	 * @param name
+     *
+     * @param name
 	 * @return
 	 */
 	public static final String getConfigByName(String name) {
@@ -222,9 +209,8 @@ public class ResourceUtil {
 
 	/**
 	 * 获取配置文件参数
-	 * 
-	 * @param name
-	 * @return
+     *
+     * @return
 	 */
 	public static final Map<Object, Object> getConfigMap(String path) {
 		ResourceBundle bundle = ResourceBundle.getBundle(path);
@@ -232,9 +218,8 @@ public class ResourceUtil {
 		return oConvertUtils.SetToMap(set);
 	}
 
-	
-	
-	public static String getSysPath() {
+
+    public static String getSysPath() {
 		String path = Thread.currentThread().getContextClassLoader().getResource("").toString();
 		String temp = path.replaceFirst("file:/", "").replaceFirst("WEB-INF/classes/", "");
 		String separator = System.getProperty("file.separator");
@@ -244,8 +229,8 @@ public class ResourceUtil {
 
 	/**
 	 * 获取项目根目录
-	 * 
-	 * @return
+     *
+     * @return
 	 */
 	public static String getPorjectPath() {
 		String nowpath; // 当前tomcat的bin目录的路径 如
@@ -280,10 +265,10 @@ public class ResourceUtil {
 
 	/**
 	 * 获取数据库类型
-	 * 
-	 * @return
-	 * @throws Exception 
-	 */
+     *
+     * @return
+     * @throws Exception
+     */
 	public static final String getJdbcUrl() {
 		return DBTypeUtil.getDBType().toLowerCase();
 	}
@@ -335,14 +320,14 @@ public class ResourceUtil {
 			key = key;
 		}
 
-	
-		//替换为系统的登录用户账号
+
+        //替换为系统的登录用户账号
 //		if (key.equals(DataBaseConstant.CREATE_BY)
 //				|| key.equals(DataBaseConstant.CREATE_BY_TABLE)
 //				|| key.equals(DataBaseConstant.UPDATE_BY)
 //				|| key.equals(DataBaseConstant.UPDATE_BY_TABLE)
-//				|| 
-		if (key.equals(DataBaseConstant.SYS_USER_CODE)
+//				||
+        if (key.equals(DataBaseConstant.SYS_USER_CODE)
 				|| key.equals(DataBaseConstant.SYS_USER_CODE_TABLE)) {
 			returnValue = getSessionUser().getUserName();
 		}
@@ -412,11 +397,10 @@ public class ResourceUtil {
 		if(returnValue!=null){returnValue = returnValue + moshi;}
 		return returnValue;
 	}
-	
+
     /**
      * 处理数据权限规则变量
      * 以用户变量为准  先得到用户变量，如果用户没有设置，则获到 系统变量
-     * @param key
      * 			Session 中的值
      * @return
      */
@@ -439,7 +423,6 @@ public class ResourceUtil {
 	/**
 	 * 【Minidao写法】
 	 * 将Sql增强中的系统变量替换掉
-	 * @param sql
 	 * @return
 	 */
 	public static Map<String, Object> minidaoReplaceExtendSqlSysVar(Map<String, Object> data){
@@ -454,7 +437,6 @@ public class ResourceUtil {
 
 	/**
 	 * 获取当前域名路径
-	 * @param request
 	 * @return
 	 */
 	public static String getBasePath() {
@@ -463,8 +445,8 @@ public class ResourceUtil {
 		return basePath;
 	}
 
-	
-	/**
+
+    /**
 	 * sql值替换
 	 * @param sql
 	 * @param params
@@ -475,16 +457,16 @@ public class ResourceUtil {
 		if (params == null) {
 			return sql;
 		}
-		if(sql.toLowerCase().indexOf(CgAutoListConstant.SQL_INSERT)!=-1){
-			sql = sql.replace("#{UUID}", UUIDGenerator.generate());
+        if (sql.toLowerCase().indexOf("insert") != -1) {
+            sql = sql.replace("#{UUID}", UUIDGenerator.generate());
 		}
 		for (String key : params.keySet()) {
 			sql = sql.replace("#{" + key + "}",String.valueOf(params.get(key)));
 		}
 		return sql;
 	}
-	
-	/**
+
+    /**
 	 * 【老写法】
 	 * 将Sql增强中的系统变量替换掉
 	 * @param sql

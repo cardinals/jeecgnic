@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
        http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-3.0.xsd
          http://www.springframework.org/schema/mvc
-		http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd 
-		http://cxf.apache.org/jaxws 
-   		http://cxf.apache.org/schemas/jaxws.xsd">
+		http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 	<!-- 自动扫描controller包下的所有类，使其认为spring mvc的控制器 -->
 	<!-- 加载controller的时候,不加载service,因为此时事物并未生效,若此时加载了service,那么事物无法对service进行拦截 -->
 	<context:component-scan base-package="org.jeecgframework.web.*,com.jeecg.*,org.jeecgframework.jwt.*">
@@ -19,22 +17,22 @@
 
 	<!-- ApplicationContext-->
 	<bean class="org.jeecgframework.core.util.ApplicationContextUtil"></bean>
-	<!-- 配置缓存工具类（支持redis\ehcache切换）  
-	<bean class="org.jeecgframework.web.system.service.impl.RedisCacheService"/>
-	-->
+    <!-- 配置缓存工具类（支持redis\ehcache切换）
+    <bean class="org.jeecgframework.web.system.service.impl.RedisCacheService"/>
+    -->
 	<bean class="org.jeecgframework.web.system.service.impl.EhcacheService"/>
-	
-	
-	<!-- Swagger支持（暂时注释掉提高平台性能，需要此功能，可以放开注释）
-	<context:component-scan base-package="springfox"/>
-	<bean class="org.jeecgframework.core.swagger.SwaggerConfig" /> 
-	<mvc:resources mapping="/swagger/**" location="/swagger/" cache-period="31556926" />  -->
-	 	
-	 
-	<!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
+
+
+    <!-- Swagger支持（暂时注释掉提高平台性能，需要此功能，可以放开注释）
+    <context:component-scan base-package="springfox"/>
+    <bean class="org.jeecgframework.core.swagger.SwaggerConfig" />
+    <mvc:resources mapping="/swagger/**" location="/swagger/" cache-period="31556926" />  -->
+
+
+    <!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
 	<bean id="mappingJacksonHttpMessageConverter"
 		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
-		<property name="objectMapper" ref="customObjectMapper"></property> 
+        <property name="objectMapper" ref="customObjectMapper"></property>
 		<property name="supportedMediaTypes">
 			<list>
 				<value>text/html;charset=UTF-8</value>
@@ -106,27 +104,27 @@
 	<!-- 异常处理类 -->
 	<bean id="exceptionHandler"
 		class="org.jeecgframework.core.common.exception.GlobalExceptionResolver" />
-	
-	
-	<!--  单点登录 kisso 注入初始化，也支持使用 web.xml 初始化 （暂时注释掉提高平台性能，需要此功能，可以放开注释） -->
+
+
+    <!--  单点登录 kisso 注入初始化，也支持使用 web.xml 初始化 （暂时注释掉提高平台性能，需要此功能，可以放开注释） -->
 	<!--  参数runMode说明： dev_mode/开发模式 ,test_mode/测试模式 ,online_mode/生产模式
 	<bean id="kissoInit" class="com.baomidou.kisso.web.WebKissoConfigurer" init-method="initKisso">
 		<property name="ssoPropPath" value="sso.properties" />
 		<property name="runMode" value="test_mode" />
 	</bean> -->
 
-	
+
 	<!-- 拦截器 -->
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
 			<bean class="org.jeecgframework.core.interceptors.EncodingInterceptor" />
 		</mvc:interceptor>
-		<!-- [接口方案一] API 接口验签拦截器 ，签名统一校验（暂时注释掉提高平台性能，需要此功能，可以放开注释） 
-		<mvc:interceptor>
-			<mvc:mapping path="/api/**" />
-			<bean class="org.jeecgframework.core.interceptors.SignInterceptor" />
-		</mvc:interceptor>-->
+        <!-- [接口方案一] API 接口验签拦截器 ，签名统一校验（暂时注释掉提高平台性能，需要此功能，可以放开注释）
+        <mvc:interceptor>
+            <mvc:mapping path="/api/**" />
+            <bean class="org.jeecgframework.core.interceptors.SignInterceptor" />
+        </mvc:interceptor>-->
 		<!-- [接口方案二] JWT Token校验方式拦截器，针对Restful请求接口 -->
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
@@ -214,15 +212,15 @@
 			</bean>
         </mvc:interceptor> -->
 	</mvc:interceptors>
-	
-	<!--集成cxf webservice接口（暂时注释掉提高平台性能，需要此功能，可以放开注释）
-	<import resource="classpath:cxf-servlet.xml" />-->
-	
-	<!-- Online表单配置引入 -->
+
+    <!--集成cxf webservice接口（暂时注释掉提高平台性能，需要此功能，可以放开注释）
+    <import resource="classpath:cxf-servlet.xml" />-->
+
+    <!-- Online表单配置引入 -->
 	<import resource="classpath*:org/jeecgframework/web/cgform/common/spring-mvc-cgform.xml" />
 	<!-- 配置 redis -->
     <import resource="classpath:redis.xml" />
 	<!-- Jeecg 插件开发 -->
-	<bean class="org.jeecgframework.p3.core.utils.common.ApplicationContextUtil"></bean>
-	<import resource="classpath:config/spring-config-p3.xml" />
+    <!--<bean class="org.jeecgframework.p3.core.utils.common.ApplicationContextUtil"></bean>
+    <import resource="classpath:config/spring-config-p3.xml" />-->
 </beans>
