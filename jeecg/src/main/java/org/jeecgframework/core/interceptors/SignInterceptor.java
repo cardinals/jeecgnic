@@ -3,7 +3,7 @@ package org.jeecgframework.core.interceptors;
 import com.alibaba.fastjson.JSONObject;
 import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.web.cgform.util.SignatureUtil;
+import org.jeecgframework.p3.core.util.SignatureUtil;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -16,7 +16,7 @@ import java.util.Map;
  * API接口签名校验机制 <br/>
  * 描述：{ 拦截 /api/**的请求，匹配请求header中的参数X-JEECG-SIGN，是否与服务器签名一致 }
  * date: 2017-4-1 <br/>
- * @author dangzhenghui  
+ * @author dangzhenghui
  *
  */
 public class SignInterceptor implements HandlerInterceptor {

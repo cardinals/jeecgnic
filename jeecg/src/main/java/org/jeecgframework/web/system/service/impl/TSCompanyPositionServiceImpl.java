@@ -1,44 +1,44 @@
 package org.jeecgframework.web.system.service.impl;
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 import org.jeecgframework.core.util.ApplicationContextUtil;
 import org.jeecgframework.core.util.MyClassLoader;
 import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.web.cgform.enhance.CgformEnhanceJavaInter;
 import org.jeecgframework.web.system.pojo.base.TSCompanyPositionEntity;
 import org.jeecgframework.web.system.service.TSCompanyPositionServiceI;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 @Service("tSCompanyPositionService")
 @Transactional
 public class TSCompanyPositionServiceImpl extends CommonServiceImpl implements TSCompanyPositionServiceI {
 
-	
+
  	public void delete(TSCompanyPositionEntity entity) throws Exception{
  		super.delete(entity);
  		//执行删除操作增强业务
 		this.doDelBus(entity);
  	}
- 	
- 	public Serializable save(TSCompanyPositionEntity entity) throws Exception{
+
+    public Serializable save(TSCompanyPositionEntity entity) throws Exception{
  		Serializable t = super.save(entity);
  		//执行新增操作增强业务
  		this.doAddBus(entity);
  		return t;
  	}
- 	
- 	public void saveOrUpdate(TSCompanyPositionEntity entity) throws Exception{
+
+    public void saveOrUpdate(TSCompanyPositionEntity entity) throws Exception{
  		super.saveOrUpdate(entity);
  		//执行更新操作增强业务
  		this.doUpdateBus(entity);
  	}
- 	
- 	/**
+
+    /**
 	 * 新增操作增强业务
 	 * @param t
 	 * @return
@@ -54,13 +54,12 @@ public class TSCompanyPositionServiceImpl extends CommonServiceImpl implements T
  	}
  	/**
 	 * 删除操作增强业务
-	 * @param id
 	 * @return
 	 */
 	private void doDelBus(TSCompanyPositionEntity t) throws Exception{
  	}
- 	
- 	private Map<String,Object> populationMap(TSCompanyPositionEntity t){
+
+    private Map<String,Object> populationMap(TSCompanyPositionEntity t){
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("id", t.getId());
 		map.put("company_id", t.getCompanyId());
@@ -81,8 +80,8 @@ public class TSCompanyPositionServiceImpl extends CommonServiceImpl implements T
 		map.put("sys_org_code", t.getSysOrgCode());
 		return map;
 	}
- 	
- 	/**
+
+    /**
 	 * 替换sql中的变量
 	 * @param sql
 	 * @param t
@@ -109,8 +108,8 @@ public class TSCompanyPositionServiceImpl extends CommonServiceImpl implements T
  		sql  = sql.replace("#{UUID}",UUID.randomUUID().toString());
  		return sql;
  	}
- 	
- 	/**
+
+    /**
 	 * 执行JAVA增强
 	 */
  	private void executeJavaExtend(String cgJavaType,String cgJavaValue,Map<String,Object> data) throws Exception {
@@ -123,14 +122,10 @@ public class TSCompanyPositionServiceImpl extends CommonServiceImpl implements T
 				}else if("spring".equals(cgJavaType)){
 					obj = ApplicationContextUtil.getContext().getBean(cgJavaValue);
 				}
-				if(obj instanceof CgformEnhanceJavaInter){
-					CgformEnhanceJavaInter javaInter = (CgformEnhanceJavaInter) obj;
-					javaInter.execute("t_s_company_position",data);
-				}
 			} catch (Exception e) {
 				e.printStackTrace();
 				throw new Exception("执行JAVA增强出现异常！");
-			} 
-		}
+            }
+        }
  	}
 }
