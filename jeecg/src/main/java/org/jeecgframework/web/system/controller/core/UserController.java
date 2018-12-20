@@ -142,70 +142,6 @@ public class UserController extends BaseController {
         return "system/user/userList";
     }
 
-    @RequestMapping(params = "interfaceUser")
-    public String interfaceUser(HttpServletRequest request) {
-        // 给部门查询条件中的下拉框准备数据
-        List<TSDepart> departList = systemService.getList(TSDepart.class);
-        request.setAttribute("departsReplace", RoletoJson.listToReplaceStr(departList, "departname", "id"));
-        departList.clear();
-        return "system/user/interfaceUserList";
-    }
-
-    @RequestMapping(params = "interfaceUserDatagrid")
-    public void interfaceUserDatagrid(TSUser user, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
-        CriteriaQuery cq = new CriteriaQuery(TSUser.class, dataGrid);
-        //查询条件组装器
-        org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, user);
-        Short[] userstate = new Short[]{Globals.User_Normal, Globals.User_ADMIN, Globals.User_Forbidden};
-        cq.in("status", userstate);
-        cq.eq("deleteFlag", Globals.Delete_Normal);
-        cq.eq("userType", Globals.USER_TYPE_INTERFACE);
-        cq.add();
-        this.systemService.getDataGridReturn(cq, true);
-        List<TSUser> cfeList = new ArrayList<TSUser>();
-        for (Object o : dataGrid.getResults()) {
-            if (o instanceof TSUser) {
-                TSUser cfe = (TSUser) o;
-                if (cfe.getId() != null && !"".equals(cfe.getId())) {
-                    List<InterroleUserEntity> roleUser = systemService.findByProperty(InterroleUserEntity.class, "TSUser.id", cfe.getId());
-                    if (roleUser.size() > 0) {
-                        String roleName = "";
-                        for (InterroleUserEntity ru : roleUser) {
-                            roleName += ru.getInterroleEntity().getRoleName() + ",";
-                        }
-                        roleName = roleName.substring(0, roleName.length() - 1);
-                        cfe.setUserKey(roleName);
-                    }
-                }
-                cfeList.add(cfe);
-            }
-        }
-        TagUtil.datagrid(response, dataGrid);
-    }
-
-    @RequestMapping(params = "delInterfaceUser")
-    @ResponseBody
-    public AjaxJson delInterfaceUser(@RequestParam(required = true) String userid) {
-        AjaxJson ajaxJson = new AjaxJson();
-        try {
-            TSUser user = this.userService.getEntity(TSUser.class, userid);
-            if (user != null) {
-                String sql = "delete from t_s_interrole_user where user_id = ?";
-                this.systemService.executeSql(sql, userid);
-                this.userService.delete(user);
-                ajaxJson.setMsg("删除成功");
-            } else {
-                ajaxJson.setMsg("用户不存在");
-            }
-
-        } catch (Exception e) {
-            LogUtil.log("删除失败", e.getMessage());
-            ajaxJson.setSuccess(false);
-            ajaxJson.setMsg(e.getMessage());
-        }
-        return ajaxJson;
-    }
-
 
     /**
      * 用户信息
@@ -593,23 +529,6 @@ public class UserController extends BaseController {
             userService.updateEntitie(user);
             message = "用户：" + user.getUserName() + "删除成功";
             logger.info("[" + IpUtil.getIpAddr(req) + "][逻辑删除用户]" + message);
-
-
-/**
- if (roleUser.size()>0) {
- // 删除用户时先删除用户和角色关系表
- delRoleUser(user);
-
- systemService.executeSql("delete from t_s_user_org where user_id=?", user.getId()); // 删除 用户-机构 数据
-
- userService.delete(user);
- message = "用户：" + user.getUserName() + "删除成功";
- systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
- } else {
- userService.delete(user);
- message = "用户：" + user.getUserName() + "删除成功";
- }
- **/
         } else {
             message = "超级管理员不可删除";
         }
@@ -636,24 +555,6 @@ public class UserController extends BaseController {
             return j;
         }
         user = systemService.getEntity(TSUser.class, user.getId());
-
-		/*List<TSRoleUser> roleUser = systemService.findByProperty(TSRoleUser.class, "TSUser.id", user.getId());
-        if (!user.getStatus().equals(Globals.User_ADMIN)) {
-			if (roleUser.size()>0) {
-				// 删除用户时先删除用户和角色关系表
-				delRoleUser(user);
-                systemService.executeSql("delete from t_s_user_org where user_id=?", user.getId()); // 删除 用户-机构 数据
-                userService.delete(user);
-				message = "用户：" + user.getUserName() + "删除成功";
-				systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
-			} else {
-				userService.delete(user);
-				message = "用户：" + user.getUserName() + "删除成功";
-			}
-		} else {
-			message = "超级管理员不可删除";
-		}*/
-
         try {
             message = userService.trueDel(user);
             logger.info("[" + IpUtil.getIpAddr(req) + "][真实删除用户]" + message);
@@ -661,21 +562,10 @@ public class UserController extends BaseController {
             e.printStackTrace();
             message = "删除失败";
         }
-
-
         j.setMsg(message);
         return j;
     }
 
-	/*public void delRoleUser(TSUser user) {
-		// 同步删除用户角色关联表
-		List<TSRoleUser> roleUserList = systemService.findByProperty(TSRoleUser.class, "TSUser.id", user.getId());
-		if (roleUserList.size() >= 1) {
-			for (TSRoleUser tRoleUser : roleUserList) {
-				systemService.delete(tRoleUser);
-			}
-		}
-	}*/
 
     /**
      * 检查用户名
@@ -878,133 +768,6 @@ public class UserController extends BaseController {
         return new ModelAndView("system/user/user");
     }
 
-    /**
-     * 添加、编辑接口用户
-     *
-     * @param user
-     */
-    @RequestMapping(params = "addorupdateInterfaceUser")
-    public ModelAndView addorupdateInterfaceUser(TSUser user, HttpServletRequest req) {
-
-        if (StringUtil.isNotEmpty(user.getId())) {
-            user = systemService.getEntity(TSUser.class, user.getId());
-            req.setAttribute("user", user);
-            interfaceroleidandname(req, user);
-        } else {
-            String roleId = req.getParameter("roleId");
-            if (StringUtils.isNotBlank(roleId)) {
-                InterroleEntity role = systemService.getEntity(InterroleEntity.class, roleId);
-                req.setAttribute("roleId", roleId);
-                req.setAttribute("roleName", role.getRoleName());
-            }
-        }
-
-        return new ModelAndView("system/user/interfaceUser");
-    }
-
-    public void interfaceroleidandname(HttpServletRequest req, TSUser user) {
-        List<InterroleUserEntity> roleUsers = systemService.findByProperty(InterroleUserEntity.class, "TSUser.id", user.getId());
-        String roleId = "";
-        String roleName = "";
-        if (roleUsers.size() > 0) {
-            for (InterroleUserEntity interroleUserEntity : roleUsers) {
-                roleId += interroleUserEntity.getInterroleEntity().getId() + ",";
-                roleName += interroleUserEntity.getInterroleEntity().getRoleName() + ",";
-            }
-        }
-        req.setAttribute("roleId", roleId);
-        req.setAttribute("roleName", roleName);
-
-    }
-
-    /**
-     * 接口用户录入
-     *
-     * @param user
-     * @param req
-     * @return
-     */
-    @RequestMapping(params = "saveInterfaceUser")
-    @ResponseBody
-    public AjaxJson saveInterfaceUser(HttpServletRequest req, TSUser user) {
-        String message = null;
-        AjaxJson j = new AjaxJson();
-        // 得到用户的角色
-        String roleid = oConvertUtils.getString(req.getParameter("roleid"));
-        String password = oConvertUtils.getString(req.getParameter("password"));
-        if (StringUtil.isNotEmpty(user.getId())) {
-            TSUser users = systemService.getEntity(TSUser.class, user.getId());
-            users.setEmail(user.getEmail());
-            users.setOfficePhone(user.getOfficePhone());
-            users.setMobilePhone(user.getMobilePhone());
-            users.setDevFlag(user.getDevFlag());
-
-            user.setPassword(PasswordUtil.encrypt(user.getUserName(), password, PasswordUtil.getStaticSalt()));
-
-//            systemService.executeSql("delete from t_s_user_org where user_id=?", user.getId());
-//            saveUserOrgList(req, user);
-//            users.setTSDepart(user.getTSDepart());
-
-            users.setRealName(user.getRealName());
-            users.setStatus(Globals.User_Normal);
-            users.setActivitiSync(user.getActivitiSync());
-
-            users.setUserNameEn(user.getUserNameEn());
-            users.setUserType(user.getUserType());
-//			users.setPersonType(user.getPersonType());
-            users.setSex(user.getSex());
-            users.setEmpNo(user.getEmpNo());
-            users.setCitizenNo(user.getCitizenNo());
-            users.setFax(user.getFax());
-            users.setAddress(user.getAddress());
-            users.setPost(user.getPost());
-            users.setMemo(user.getMemo());
-
-            systemService.updateEntitie(users);
-            List<TSRoleUser> ru = systemService.findByProperty(TSRoleUser.class, "TSUser.id", user.getId());
-            systemService.deleteAllEntitie(ru);//TODO ?
-            message = "用户: " + users.getUserName() + "更新成功";
-//			if (StringUtil.isNotEmpty(roleid)) {
-//				saveInterfaceRoleUser(users, roleid);
-//			}
-            systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
-        } else {
-            TSUser users = systemService.findUniqueByProperty(TSUser.class, "userName", user.getUserName());
-            if (users != null) {
-                message = "用户: " + users.getUserName() + "已经存在";
-            } else {
-                user.setPassword(PasswordUtil.encrypt(user.getUserName(), password, PasswordUtil.getStaticSalt()));
-//				if (user.getTSDepart().equals("")) {
-//					user.setTSDepart(null);
-//				}
-                user.setStatus(Globals.User_Normal);
-                user.setDeleteFlag(Globals.Delete_Normal);
-                systemService.save(user);
-                // todo zhanggm 保存多个组织机构
-//                saveUserOrgList(req, user);
-                message = "用户: " + user.getUserName() + "添加成功";
-                if (StringUtil.isNotEmpty(roleid)) {
-                    saveInterfaceRoleUser(user, roleid);
-                }
-                systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
-            }
-
-        }
-        j.setMsg(message);
-        logger.info("[" + IpUtil.getIpAddr(req) + "][添加编辑用户]" + message);
-        return j;
-    }
-
-    protected void saveInterfaceRoleUser(TSUser user, String roleidstr) {
-        String[] roleids = roleidstr.split(",");
-        for (int i = 0; i < roleids.length; i++) {
-            InterroleUserEntity rUser = new InterroleUserEntity();
-            InterroleEntity role = systemService.getEntity(InterroleEntity.class, roleids[i]);
-            rUser.setInterroleEntity(role);
-            rUser.setTSUser(user);
-            systemService.save(rUser);
-        }
-    }
 
 
     /**

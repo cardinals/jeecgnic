@@ -1,8 +1,4 @@
 package org.jeecgframework.web.cgdynamgraph.controller;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.controller.BaseController;
@@ -29,12 +25,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-/**   
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+
+/**
  * @Title: Controller
  * @Description: Online移动图表配置
  * @author scott
  * @date 2016-01-10 16:00:21
- * @version V1.0   
+ * @version V1.0
  *
  */
 //@Scope("prototype")
@@ -54,21 +54,20 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 
 	/**
 	 * 移动图表配置抬头列表 页面跳转
-	 * 
-	 * @return
+     *
+     * @return
 	 */
 	@RequestMapping(params = "cgDynamGraphConfigHead")
 	public ModelAndView CgDynamGraphConfigHead(HttpServletRequest request) {
 		return new ModelAndView("jeecg/cgdynamgraph/core/cgDynamGraphConfigHeadList");
 	}
-	
+
 	/**
 	 * easyui AJAX请求数据
-	 * 
-	 * @param request
+     *
+     * @param request
 	 * @param response
 	 * @param dataGrid
-	 * @param user
 	 */
 
 	@RequestMapping(params = "datagrid")
@@ -88,8 +87,8 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 
 	/**
 	 * 删除移动图表配置抬头
-	 * 
-	 * @return
+     *
+     * @return
 	 */
 	@RequestMapping(params = "doDel")
 	@ResponseBody
@@ -113,8 +112,8 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 
 	/**
 	 * 批量删除移动图表配置抬头
-	 * 
-	 * @return
+     *
+     * @return
 	 */
 	 @RequestMapping(params = "doBatchDel")
 	@ResponseBody
@@ -140,9 +139,8 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 
 	/**
 	 * 添加移动图表配置抬头
-	 * 
-	 * @param ids
-	 * @return
+     *
+     * @return
 	 */
 	@RequestMapping(params = "doAdd")
 	@ResponseBody
@@ -178,9 +176,8 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 	}
 	/**
 	 * 更新移动图表配置抬头
-	 * 
-	 * @param ids
-	 * @return
+     *
+     * @return
 	 */
 	@RequestMapping(params = "doUpdate")
 	@ResponseBody
@@ -217,8 +214,8 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 
 	/**
 	 * 移动图表配置抬头新增页面跳转
-	 * 
-	 * @return
+     *
+     * @return
 	 */
 	@RequestMapping(params = "goAdd")
 	public ModelAndView goAdd(CgDynamGraphConfigHeadEntity cgDynamGraphConfigHead, HttpServletRequest req) {
@@ -228,11 +225,11 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 		}
 		return new ModelAndView("jeecg/cgdynamgraph/core/cgDynamGraphConfigHead-add");
 	}
-		
+
 	/**
 	 * 移动图表配置抬头编辑页面跳转
-	 * 
-	 * @return
+     *
+     * @return
 	 */
 	@RequestMapping(params = "goUpdate")
 	public ModelAndView goUpdate(CgDynamGraphConfigHeadEntity cgDynamGraphConfigHead, HttpServletRequest req) {
@@ -242,16 +239,16 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 		}
 		return new ModelAndView("jeecg/cgdynamgraph/core/cgDynamGraphConfigHead-update");
 	}
-		
-	/**
+
+    /**
 	 * 加载明细列表[移动图表配置明细]
-	 * 
-	 * @return
+     *
+     * @return
 	 */
 	@RequestMapping(params = "cgDynamGraphConfigItemList")
 	public ModelAndView cgDynamGraphConfigItemList(CgDynamGraphConfigHeadEntity cgDynamGraphConfigHead, HttpServletRequest req) {
-	
-		//===================================================================================
+
+        //===================================================================================
 		//获取参数
 		Object id0 = cgDynamGraphConfigHead.getId();
 		//===================================================================================
@@ -265,16 +262,16 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 		}
 		return new ModelAndView("jeecg/cgdynamgraph/core/cgDynamGraphConfigItemList");
 	}
-		
-	/**
+
+    /**
 	 * 加载参数列表[移动图表参数]
-	 * 
-	 * @return
+     *
+     * @return
 	 */
 	@RequestMapping(params = "cgDynamGraphConfigParamList")
 	public ModelAndView cgDynamGraphConfigParamList(CgDynamGraphConfigHeadEntity cgDynamGraphConfigHead, HttpServletRequest req) {
-	
-		//===================================================================================
+
+        //===================================================================================
 		//获取参数
 		Object id0 = cgDynamGraphConfigHead.getId();
 		//===================================================================================
@@ -288,8 +285,8 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 		}
 		return new ModelAndView("jeecg/cgdynamgraph/core/cgDynamGraphConfigParamList");
 	}
-	
-	@RequestMapping(params = "popmenulink")
+
+    @RequestMapping(params = "popmenulink")
 	public ModelAndView popmenulink(ModelMap modelMap,
                                     @RequestParam String url,
                                     @RequestParam String title, HttpServletRequest request) {
@@ -315,5 +312,5 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 		modelMap.put("params",sb.toString());
 		return new ModelAndView("jeecg/cgreport/core/popmenulink");
 	}
-	
+
 }

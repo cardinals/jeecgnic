@@ -1,26 +1,16 @@
 package com.jeecg.demo.controller;
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Validator;
-
+import com.jeecg.demo.entity.JeecgDemoExcelEntity;
+import com.jeecg.demo.service.JeecgDemoExcelServiceI;
+import com.jeecg.demo.util.FreemarkerUtil;
+import io.swagger.annotations.Api;
+import net.sf.jxls.transformer.XLSTransformer;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
-import org.jeecgframework.core.util.JxlsExcelExportUtil;
 import org.jeecgframework.core.util.MyBeanUtils;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
@@ -42,22 +32,26 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.jeecg.demo.entity.JeecgDemoExcelEntity;
-import com.jeecg.demo.entity.JformOrderCustomerEntity;
-import com.jeecg.demo.entity.JformOrderMainEntity;
-import com.jeecg.demo.page.JformOrderMainPage;
-import com.jeecg.demo.service.JeecgDemoExcelServiceI;
-import com.jeecg.demo.util.FreemarkerUtil;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Validator;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import io.swagger.annotations.Api;
-import net.sf.jxls.transformer.XLSTransformer;
-
-/**   
- * @Title: Controller  
+/**
+ * @Title: Controller
  * @Description: excel导入导出测试表
  * @author onlineGenerator
  * @date 2018-06-15 15:46:09
- * @version V1.0   
+ * @version V1.0
  *
  */
 @Controller
@@ -72,13 +66,13 @@ public class JeecgDemoExcelController extends BaseController {
 	private SystemService systemService;
 	@Autowired
 	private Validator validator;
-	
+
 
 
 	/**
 	 * excel导入导出测试表列表 页面跳转
-	 * 
-	 * @return
+     *
+     * @return
 	 */
 	@RequestMapping(params = "list")
 	public ModelAndView list(HttpServletRequest request) {
@@ -86,11 +80,10 @@ public class JeecgDemoExcelController extends BaseController {
 	}
 	/**
 	 * easyui AJAX请求数据
-	 * 
-	 * @param request
+     *
+     * @param request
 	 * @param response
 	 * @param dataGrid
-	 * @param user
 	 */
 
 	@RequestMapping(params = "datagrid")
@@ -107,11 +100,11 @@ public class JeecgDemoExcelController extends BaseController {
 		this.jeecgDemoExcelService.getDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
 	}
-	
+
 	/**
 	 * 删除excel导入导出测试表
-	 * 
-	 * @return
+     *
+     * @return
 	 */
 	@RequestMapping(params = "doDel")
 	@ResponseBody
@@ -131,11 +124,11 @@ public class JeecgDemoExcelController extends BaseController {
 		j.setMsg(message);
 		return j;
 	}
-	
+
 	/**
 	 * 批量删除excel导入导出测试表
-	 * 
-	 * @return
+     *
+     * @return
 	 */
 	 @RequestMapping(params = "doBatchDel")
 	@ResponseBody
@@ -145,8 +138,8 @@ public class JeecgDemoExcelController extends BaseController {
 		message = "excel导入导出测试表删除成功";
 		try{
 			for(String id:ids.split(",")){
-				JeecgDemoExcelEntity jeecgDemoExcel = systemService.getEntity(JeecgDemoExcelEntity.class, 
-				id
+                JeecgDemoExcelEntity jeecgDemoExcel = systemService.getEntity(JeecgDemoExcelEntity.class,
+                        id
 				);
 				jeecgDemoExcelService.delete(jeecgDemoExcel);
 				systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
@@ -163,9 +156,8 @@ public class JeecgDemoExcelController extends BaseController {
 
 	/**
 	 * 添加excel导入导出测试表
-	 * 
-	 * @param ids
-	 * @return
+     *
+     * @return
 	 */
 	@RequestMapping(params = "doAdd")
 	@ResponseBody
@@ -184,12 +176,11 @@ public class JeecgDemoExcelController extends BaseController {
 		j.setMsg(message);
 		return j;
 	}
-	
+
 	/**
 	 * 更新excel导入导出测试表
-	 * 
-	 * @param ids
-	 * @return
+     *
+     * @return
 	 */
 	@RequestMapping(params = "doUpdate")
 	@ResponseBody
@@ -210,12 +201,12 @@ public class JeecgDemoExcelController extends BaseController {
 		j.setMsg(message);
 		return j;
 	}
-	
+
 
 	/**
 	 * excel导入导出测试表新增页面跳转
-	 * 
-	 * @return
+     *
+     * @return
 	 */
 	@RequestMapping(params = "goAdd")
 	public ModelAndView goAdd(JeecgDemoExcelEntity jeecgDemoExcel, HttpServletRequest req) {
@@ -227,8 +218,8 @@ public class JeecgDemoExcelController extends BaseController {
 	}
 	/**
 	 * excel导入导出测试表编辑页面跳转
-	 * 
-	 * @return
+     *
+     * @return
 	 */
 	@RequestMapping(params = "goUpdate")
 	public ModelAndView goUpdate(JeecgDemoExcelEntity jeecgDemoExcel, HttpServletRequest req) {
@@ -238,22 +229,22 @@ public class JeecgDemoExcelController extends BaseController {
 		}
 		return new ModelAndView("com/jeecg/demo/excel/jeecgDemoExcel-update");
 	}
-	
+
 	/**
 	 * 导入功能跳转
-	 * 
-	 * @return
+     *
+     * @return
 	 */
 	@RequestMapping(params = "upload")
 	public ModelAndView upload(HttpServletRequest req) {
 		req.setAttribute("controller_name","jeecgDemoExcelController");
 		return new ModelAndView("common/upload/pub_excel_upload");
 	}
-	
-	/**
+
+    /**
 	 * 导出excel
-	 * 
-	 * @param request
+     *
+     * @param request
 	 * @param response
 	 */
 	@RequestMapping(params = "exportXls")
@@ -271,8 +262,8 @@ public class JeecgDemoExcelController extends BaseController {
 	}
 	/**
 	 * 导出excel 使模板
-	 * 
-	 * @param request
+     *
+     * @param request
 	 * @param response
 	 */
 	@RequestMapping(params = "exportXlsByT")
@@ -285,14 +276,14 @@ public class JeecgDemoExcelController extends BaseController {
     	modelMap.put(NormalExcelConstants.DATA_LIST,new ArrayList());
     	return NormalExcelConstants.JEECG_EXCEL_VIEW;
 	}
-	
-	@SuppressWarnings("unchecked")
+
+    @SuppressWarnings("unchecked")
 	@RequestMapping(params = "importExcel", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxJson importExcel(HttpServletRequest request, HttpServletResponse response) {
 		AjaxJson j = new AjaxJson();
-		
-		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
 		for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet()) {
 			MultipartFile file = entity.getValue();// 获取上传文件对象
@@ -324,8 +315,8 @@ public class JeecgDemoExcelController extends BaseController {
 	public void velocity2word(JeecgDemoExcelEntity jeecgDemoExcel,HttpServletRequest request,HttpServletResponse response) throws IOException{
 		try {
 			jeecgDemoExcel = this.jeecgDemoExcelService.getEntity(JeecgDemoExcelEntity.class, jeecgDemoExcel.getId());
-			List<Map<String,Object>> departs = this.systemService.findForJdbc("select id,departname from t_s_depart"); 
-			String docFileName ="word-模板导出测试.doc";
+            List<Map<String, Object>> departs = this.systemService.findForJdbc("select id,departname from t_s_depart");
+            String docFileName ="word-模板导出测试.doc";
 			Map<String,Object> rootMap = new HashMap<String,Object>();
 			rootMap.put("info", jeecgDemoExcel);
 			rootMap.put("departs", departs);
@@ -338,8 +329,8 @@ public class JeecgDemoExcelController extends BaseController {
 	public void jxlsExportXls(JeecgDemoExcelEntity jeecgDemoExcel,HttpServletRequest request,HttpServletResponse response) throws IOException{
 		try {
 			//查询组织结构表 由集合转化成map
-			List<Map<String,Object>> departs = this.systemService.findForJdbc("select id,departname from t_s_depart"); 
-			Map<String,Object> dptMap = new HashMap<String,Object>();
+            List<Map<String, Object>> departs = this.systemService.findForJdbc("select id,departname from t_s_depart");
+            Map<String,Object> dptMap = new HashMap<String,Object>();
 			for (Map<String, Object> map : departs) {
 				dptMap.put(map.get("id").toString(), map.get("departname"));
 			}
@@ -360,8 +351,8 @@ public class JeecgDemoExcelController extends BaseController {
 			//JXLS生成workbook
 			Map<String,Object> beans =new HashMap<String,Object>();
 			beans.put("datac",list);
-			XLSTransformer transformer = new XLSTransformer(); 
-			String srcFilePath = request.getServletContext().getRealPath("/")+"export/template/jxls.xls";
+            XLSTransformer transformer = new XLSTransformer();
+            String srcFilePath = request.getServletContext().getRealPath("/")+"export/template/jxls.xls";
 			InputStream is = new BufferedInputStream(new FileInputStream(srcFilePath));
 	        org.apache.poi.ss.usermodel.Workbook workbook = transformer.transformXLS(is, beans);
 	        //设置导出
@@ -402,49 +393,6 @@ public class JeecgDemoExcelController extends BaseController {
 	@RequestMapping(params = "sublist")
 	public ModelAndView sublist(HttpServletRequest req) {
 		return new ModelAndView("com/jeecg/demo/excel/jxlsOne2manySub");
-	}
-	@RequestMapping(params = "jxlsExportXlsOne2Many")
-	public void jxlsExportXlsOne2Many(JformOrderMainEntity jformOrderMain,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid,ModelMap map) {
-		CriteriaQuery cq = new CriteriaQuery(JformOrderMainEntity.class, dataGrid);
-    	//查询条件组装器
-    	org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, jformOrderMain);
-    	try{
-        	cq.add();
-        	List<JformOrderMainEntity> list=this.systemService.getListByCriteriaQuery(cq, false);
-        	List<JformOrderMainPage> pageList=new ArrayList<JformOrderMainPage>();
-        	if(list!=null&&list.size()>0){
-            	for(JformOrderMainEntity entity:list){
-            		try{
-            		   JformOrderMainPage page=new JformOrderMainPage();
-            		   MyBeanUtils.copyBeanNotNull2Bean(entity,page);
-                	    Object id0 = entity.getId();
-    				    String hql0 = "from JformOrderCustomerEntity where 1 = 1 AND fK_ID = ? ";
-            	        List<JformOrderCustomerEntity> jformOrderCustomerEntityList = systemService.findHql(hql0,id0);
-                		for (JformOrderCustomerEntity temp : jformOrderCustomerEntityList) {
-                			String sex = temp.getSex();
-            				if("0".equals(sex)){
-            					sex = "男性";
-            				}else if("1".equals(sex)){
-            					sex = "女性";
-            				}
-            				temp.setSex(sex);
-						}
-            	        page.setJformOrderCustomerList(jformOrderCustomerEntityList);
-                		pageList.add(page);
-                	}catch(Exception e){
-                		logger.info(e.getMessage());
-                	}
-                }
-            }
-        	Map<String,Object> beans =new HashMap<String,Object>();
-    		beans.put("datac",pageList);
-    		String repeat = request.getParameter("repeat");
-    		String templateFilePath = request.getServletContext().getRealPath("/")+"export/template/jxlsone2many-"+repeat+".xls";
-    		String exportFileName = "jxls导出excel-demo(一对多).xls";
-    		JxlsExcelExportUtil.export(beans,exportFileName,templateFilePath, request, response);
-    	}catch (Exception e) {
-    		throw new BusinessException(e.getMessage());
-    	}
 	}
 
 }

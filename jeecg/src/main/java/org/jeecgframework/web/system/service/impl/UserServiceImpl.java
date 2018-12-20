@@ -1,18 +1,5 @@
 package org.jeecgframework.web.system.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
@@ -20,31 +7,23 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 import org.jeecgframework.core.constant.Globals;
-import org.jeecgframework.core.util.BrowserUtils;
-import org.jeecgframework.core.util.ContextHolderUtils;
-import org.jeecgframework.core.util.DateUtils;
-import org.jeecgframework.core.util.IpUtil;
-import org.jeecgframework.core.util.NumberComparator;
-import org.jeecgframework.core.util.ResourceUtil;
-import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.core.util.*;
 import org.jeecgframework.web.system.manager.ClientManager;
-import org.jeecgframework.web.system.pojo.base.Client;
-import org.jeecgframework.web.system.pojo.base.TSDepart;
-import org.jeecgframework.web.system.pojo.base.TSFunction;
-import org.jeecgframework.web.system.pojo.base.TSLog;
-import org.jeecgframework.web.system.pojo.base.TSRole;
-import org.jeecgframework.web.system.pojo.base.TSRoleUser;
-import org.jeecgframework.web.system.pojo.base.TSUser;
-import org.jeecgframework.web.system.pojo.base.TSUserOrg;
+import org.jeecgframework.web.system.pojo.base.*;
 import org.jeecgframework.web.system.service.MutiLangServiceI;
 import org.jeecgframework.web.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.*;
+
 /**
- * 
+ *
  * @author  张代浩
  *
  */
@@ -55,27 +34,27 @@ public class UserServiceImpl extends CommonServiceImpl implements UserService {
 	private MutiLangServiceI mutiLangService;
 	@Resource
 	private ClientManager clientManager;
-	
+
 	@Transactional(readOnly = true)
 	public TSUser checkUserExits(TSUser user){
 		return this.commonDao.getUserByUserIdAndUserNameExits(user);
 	}
-	
+
 	@Transactional(readOnly = true)
 	public TSUser checkUserExits(String username,String password){
 		return this.commonDao.findUserByAccountAndPassword(username,password);
 	}
-	
+
 	@Transactional(readOnly = true)
 	public String getUserRole(TSUser user){
 		return this.commonDao.getUserRole(user);
 	}
-	
-	public void pwdInit(TSUser user,String newPwd) {
+
+    public void pwdInit(TSUser user,String newPwd) {
 			this.commonDao.pwdInit(user,newPwd);
 	}
-	
-	@Transactional(readOnly = true)
+
+    @Transactional(readOnly = true)
 	public int getUsersOfThisRole(String id) {
 		Criteria criteria = getSession().createCriteria(TSRoleUser.class);
 		criteria.add(Restrictions.eq("TSRole.id", id));
@@ -83,8 +62,8 @@ public class UserServiceImpl extends CommonServiceImpl implements UserService {
 				Projections.rowCount()).uniqueResult()).intValue();
 		return allCounts;
 	}
-	
-	@Override
+
+    @Override
 	public String trueDel(TSUser user) {
 		String message = "";
 		List<TSRoleUser> roleUser = this.commonDao.findByProperty(TSRoleUser.class, "TSUser.id", user.getId());
@@ -105,8 +84,8 @@ public class UserServiceImpl extends CommonServiceImpl implements UserService {
 		}
 		return message;
 	}
-	
-	private void delRoleUser(TSUser user) {
+
+    private void delRoleUser(TSUser user) {
 		// 同步删除用户角色关联表
 		List<TSRoleUser> roleUserList = this.commonDao.findByProperty(TSRoleUser.class, "TSUser.id", user.getId());
 		if (roleUserList.size() >= 1) {
@@ -115,8 +94,8 @@ public class UserServiceImpl extends CommonServiceImpl implements UserService {
 			}
 		}
 	}
-	
-	/**
+
+    /**
 	 * 添加日志
 	 */
 	private void addLog(String logcontent, Short loglevel, Short operatetype) {
@@ -152,8 +131,8 @@ public class UserServiceImpl extends CommonServiceImpl implements UserService {
 		saveUserOrgList(user,orgIds);
 		saveRoleUser(user,roleIds);
 	}
-	
-	/**
+
+    /**
      * 保存 用户-组织机构 关系信息
      * @param user user
      * @param orgIds 组织机构id数组
@@ -165,12 +144,12 @@ public class UserServiceImpl extends CommonServiceImpl implements UserService {
         		if(StringUtils.isBlank(orgId))continue;
         		TSDepart depart = new TSDepart();
         		depart.setId(orgId);
-        		
-        		TSUserOrg userOrg = new TSUserOrg();
+
+                TSUserOrg userOrg = new TSUserOrg();
         		userOrg.setTsUser(user);
         		userOrg.setTsDepart(depart);
-        		
-        		userOrgList.add(userOrg);
+
+                userOrgList.add(userOrg);
         	}
         	if (!userOrgList.isEmpty()) {
         		commonDao.batchSave(userOrgList);
@@ -199,8 +178,8 @@ public class UserServiceImpl extends CommonServiceImpl implements UserService {
 
 	/**
 	 * 获取用户菜单列表
-	 * 
-	 * @param userId 用户ID
+     *
+     * @param userId 用户ID
 	 * @return
 	 */
 	@Transactional(readOnly = true)
@@ -218,18 +197,18 @@ public class UserServiceImpl extends CommonServiceImpl implements UserService {
 		for (TSFunction function : list2) {
 			loginActionlist.put(function.getId(), function);
 		}
-		
-		list1.clear();
+
+        list1.clear();
 		list2.clear();
 		list1 = null;
 		list2 = null;
 		return loginActionlist;
 	}
-	
-	/**
+
+    /**
 	 * 根据用户ID，获取登录用户的权限Map
-	 * 
-	 * @param userid 	用户ID
+     *
+     * @param userid 	用户ID
 	 * @return
 	 */
 	@Transactional(readOnly = true)
@@ -274,9 +253,9 @@ public class UserServiceImpl extends CommonServiceImpl implements UserService {
 			return client.getFunctionMap();
 		}
 	}
-	
-	
-	/**
+
+
+    /**
      * 保存登录用户信息，并将当前登录用户的组织机构赋值到用户实体中；
      * @param req 		request
      * @param user 		当前登录用户
@@ -291,7 +270,7 @@ public class UserServiceImpl extends CommonServiceImpl implements UserService {
 		user.setDepartid(orgId);
 		session.setAttribute(ResourceUtil.LOCAL_CLINET_USER, user);
         message = mutiLangService.getLang("common.user") + ": " + user.getUserName() + "["+ currentDepart.getDepartname() + "]" + mutiLangService.getLang("common.login.success");
-        
+
         //IE列表操作按钮的样式
         String browserType = "";
         Cookie[] cookies = req.getCookies();
@@ -302,7 +281,7 @@ public class UserServiceImpl extends CommonServiceImpl implements UserService {
 			}
 		}
         session.setAttribute("brower_type", browserType);
-        
+
         //【基础权限】切换用户，用户分拥有不同的权限，切换用户权限错误问题
         //当前session为空 或者 当前session的用户信息与刚输入的用户信息一致时，则更新Client信息
         Client clientOld = clientManager.getClient(session.getId());
@@ -321,18 +300,10 @@ public class UserServiceImpl extends CommonServiceImpl implements UserService {
 			session.setAttribute("randCode",req.getParameter("randCode"));//保存验证码
 			clientManager.addClinet(session.getId(), client);
 		}
-        
+
         // 添加登陆日志
         this.addLog(message, Globals.Log_Type_LOGIN, Globals.Log_Leavel_INFO);
     }
-    
-	/**
-	 * 判断访问IP是否在黑名单
-	 */
-	public boolean isInBlackList(String ip){
-		Long orgNum = this.getCountForJdbcParam("select count(*) from t_s_black_list where ip = ?",ip);
-		return orgNum!=0?true:false;
-	}
 
 	/**
 	 * shortcut风格菜单图标个性化设置（一级菜单）
@@ -347,8 +318,8 @@ public class UserServiceImpl extends CommonServiceImpl implements UserService {
 				String lang_key = function.getFunctionName();
 				String lang_context = mutiLangService.getLang(lang_key);
 				lang_context = lang_context.trim();
-				
-				if ("业务申请".equals(lang_context)) {
+
+                if ("业务申请".equals(lang_context)) {
 					String ss = "<div style='width:67px;position: absolute;top:39px;text-align:center;color:#909090;font-size:13px;'><span style='letter-spacing:-1px;'>" + lang_context + "</span></div>";
 					floor += " <li style='position: relative;'>" + ss + "<img class='imag1' src='plug-in/login/images/ywsq.png' /> " + " <img class='imag2' src='plug-in/login/images/ywsq-up.png' style='display: none;' /></li> ";
 				} else if ("个人办公".equals(lang_context)) {
@@ -402,8 +373,8 @@ public class UserServiceImpl extends CommonServiceImpl implements UserService {
 		return floor;
 	}
 
-	
-	/**
+
+    /**
 	 * shortcut风格菜单图标个性化设置（二级菜单）
 	 * @return
 	 */
