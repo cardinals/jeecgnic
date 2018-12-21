@@ -1,17 +1,7 @@
 package org.jeecgframework.tag.core.easyui;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -27,24 +17,30 @@ import org.jeecgframework.web.system.pojo.base.TSRole;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
- * 
+ *
  * 类描述：标签工具类
- * 
- * @author: 张代浩   
+ *
+ * @author: 张代浩
  * @date： 日期：2012-12-28 时间：上午09:58:00
  * @version 1.1
  */
 public class TagUtil {
 	private static final Logger log = LoggerFactory.getLogger(TagUtil.class);
-	
+
 	/**
 	 * <b>Summary: </b> getFiled(获得实体Bean中所有属性)
-	 * 
-	 * @param objClass
+     *
+     * @param objClass
 	 * @return
 	 * @throws ClassNotFoundException
 	 */
@@ -60,8 +56,8 @@ public class TagUtil {
 	}
 
 	/**
-	 * 
-	 * 获取对象内对应字段的值
+     *
+     * 获取对象内对应字段的值
 	 * @param fields
 	 */
 	public static Object fieldNametoValues(String FiledName, Object o){
@@ -95,15 +91,15 @@ public class TagUtil {
 		}
 		return value.toString();
 	}
-	
+
 	/**
 	 * 循环LIST对象拼接EASYUI格式的JSON数据
 	 * @param fields
 	 * @param total
 	 * @param list
-	 * @param dataStyle 
-	 * @param page 
-	 */
+     * @param dataStyle
+     * @param page
+     */
 	private static String listtojson(String[] fields, int total, List<?> list, String[] footers, String dataStyle, int pageSize) throws Exception {
 		StringBuffer jsonTemp = new StringBuffer();
 		if("jqgrid".equals(dataStyle)){
@@ -115,15 +111,15 @@ public class TagUtil {
 			jsonTemp.append("{\"total\":" + total );
 		}
 		jsonTemp.append(",\"rows\":[");
-		
+
 		int i;
 		String fieldName;
-		
+
 		//list为null问题处理-------
 		if(list==null){
 			list = new ArrayList();
 		}
-		
+
 		for (int j = 0; j < list.size(); ++j) {
 			//树最末层，图标显示节点
 			jsonTemp.append("{\"state\":\"closed\",");
@@ -177,9 +173,9 @@ public class TagUtil {
 	 * @param fields
 	 * @param total
 	 * @param list
-	 * @param dataStyle 
-	 * @param page 
-	 */
+     * @param dataStyle
+     * @param page
+     */
 	private static String listtojsonByFootersJson(String[] fields, int total, List<?> list,String footers, String dataStyle, int pageSize) throws Exception {
 		StringBuffer jsonTemp = new StringBuffer();
 		if("jqgrid".equals(dataStyle)){
@@ -239,7 +235,7 @@ public class TagUtil {
 		return jsonTemp.toString();
 	}
 
-	
+
 	/**
 	 * 计算指定列的合计
 	 * @param filed 字段名
@@ -269,8 +265,8 @@ public class TagUtil {
 	 * @param fields
 	 * @param total
 	 * @param list
-	 * @throws Exception 
-	 */
+     * @throws Exception
+     */
 	public static String getAutoList(Autocomplete autocomplete, List list) throws Exception {
 		String field = autocomplete.getLabelField() + "," + autocomplete.getValueField();
 		String[] fields = field.split(",");
@@ -300,9 +296,9 @@ public class TagUtil {
 		jsonTemp.append("]}");
 		return jsonTemp.toString();
 	}
-	
-	
-	/**
+
+
+    /**
 	 * 返回列表JSONObject对象
 	 * @param field
 	 * @param dataGrid
@@ -380,8 +376,8 @@ public class TagUtil {
 
 	/**
 	 * 获取指定字段类型 <b>Summary: </b> getColumnType(请用一句话描述这个方法的作用)
-	 * 
-	 * @param fileName
+     *
+     * @param fileName
 	 * @param fields
 	 * @return
 	 */
@@ -427,10 +423,10 @@ public class TagUtil {
 	}
 
 	/**
-	 * 
-	 * <b>Summary: </b> getSortColumnIndex(获取指定字段索引)
-	 * 
-	 * @param fileName
+     *
+     * <b>Summary: </b> getSortColumnIndex(获取指定字段索引)
+     *
+     * @param fileName
 	 * @param fieldString
 	 * @return
 	 */
@@ -477,7 +473,6 @@ public class TagUtil {
 	 * 控件类型：easyui
 	 * 返回datagrid JSON数据
 	 * @param response
-	 * @param dataGrid
 	 */
 	public static void datagrid(HttpServletResponse response,DataGrid dg) {
 		response.setContentType("application/json");
@@ -500,8 +495,8 @@ public class TagUtil {
 			}
 		}
 	}
-	
-	/**
+
+    /**
 	 * 控件类型：easyui
 	 * 返回treegrid JSON数据
 	 * @param response
@@ -531,8 +526,8 @@ public class TagUtil {
 			}
 		}
 	}
-	
-	/**
+
+    /**
 	 * 控件类型：easyui
 	 * 返回datagrid JSON数据
 	 * @param response
@@ -549,8 +544,8 @@ public class TagUtil {
 			JSONObject o =(JSONObject) object2;
 			o.putAll(extMap.get(o.get("id")));
 		}
-		
-		try {
+
+        try {
 			PrintWriter pw = response.getWriter();
 			pw = response.getWriter();
 			pw.write(object.toString());
@@ -570,8 +565,8 @@ public class TagUtil {
 			}
 		}
 	}
-	
-	
+
+
 //	/**
 //	 * 控件类型：datatable
 //	 * 返回datatable JSON数据
@@ -665,8 +660,8 @@ public class TagUtil {
 	}
 	/**
 	 * 获取自定义函数名
-	 * 
-	 * @param functionname
+     *
+     * @param functionname
 	 * @return
 	 */
 	public static String getFunction(String functionname) {
@@ -680,8 +675,8 @@ public class TagUtil {
 
 	/**
 	 * 获取自定义函数的参数
-	 * 
-	 * @param functionname
+     *
+     * @param functionname
 	 * @return
 	 */
 	public static String getFunParams(String functionname) {
@@ -716,8 +711,8 @@ public class TagUtil {
 				sb.append("}"+(i==datas.size()-1?"":","));
 			}
 			sb.append("]}");
-			
-			return sb.toString();
+
+            return sb.toString();
 		}else{
 			return "{\"total\":\"0\",\"rows\":[]}";
 		}

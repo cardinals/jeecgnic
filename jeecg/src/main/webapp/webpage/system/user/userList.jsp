@@ -8,8 +8,7 @@
     <t:dgCol title="common.username" sortable="false" field="userName" query="true" width="100"></t:dgCol>
     <t:dgCol title="common.real.name" field="realName" query="true" width="100"></t:dgCol>
     <t:dgCol title="common.user.type" field="userType" dictionary="user_type" width="80"></t:dgCol>
-    <%--<t:dgCol title="common.department" field="TSDepart_id" query="true" replace="${departsReplace}"></t:dgCol>--%>
-    <t:dgCol title="common.department" sortable="false" field="userOrgList.tsDepart.departname" width="100"></t:dgCol>
+    <t:dgCol title="部门" hidden="true" sortable="false" field="userOrgList.tsDepart.departname" width="100"></t:dgCol>
     <t:dgCol title="common.role" field="userKey" width="100"></t:dgCol>
     <t:dgCol title="common.createby" field="createBy" hidden="true" width="100"></t:dgCol>
     <t:dgCol title="common.createtime" field="createDate" formatter="yyyy-MM-dd" width="50" hidden="false"></t:dgCol>
@@ -19,7 +18,7 @@
              replace="common.active_1,common.inactive_0,super.admin_-1"></t:dgCol>
 
     <t:dgCol title="common.operation" field="opt" width="100"></t:dgCol>
-    <t:dgFunOpt funname="deleteDialog(id)" title="common.delete" urlclass="ace_button"
+    <t:dgFunOpt funname="deleteDialog(id,userName)" title="common.delete" urlclass="ace_button"
                 urlfont="fa-trash-o"></t:dgFunOpt>
     <t:dgToolBar title="common.add.param" langArg="common.user" icon="icon-add" url="userController.do?addorupdate"
                  funname="add" height="420"></t:dgToolBar>
@@ -55,8 +54,8 @@
     </div>
 </div>--%>
 <script type="text/javascript">
-    function deleteDialog(id) {
-        var url = "userController.do?deleteDialog&id=" + id
+    function deleteDialog(id, userName) {
+        var url = "userController.do?deleteDialog&id=" + id + "&userName=" + userName;
         createwindow("删除模式", url, 200, 100);
     }
 

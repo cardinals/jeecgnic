@@ -624,10 +624,10 @@
 
 	</dependencies>
 
-	<organization>
-		<name>JEECG 微云快速开发平台</name>
-		<url>www.jeecg.org</url>
-	</organization>
+    <!--<organization>
+        <name>快速开发平台</name>
+        <url>www.jeecg.org</url>
+    </organization>-->
 	<build>
 		<finalName>${project.artifactId}</finalName>
 		<plugins>

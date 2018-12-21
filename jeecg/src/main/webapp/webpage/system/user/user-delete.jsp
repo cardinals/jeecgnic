@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.*" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@include file="/context/mytags.jsp"%>
 <!DOCTYPE html>
 <html>
@@ -11,12 +11,13 @@
 			$("#deleteType").val($(this).val());
 		});
 	})
-	
+
 </script>
 </head>
 <body style="overflow-y: hidden" scroll="no">
 <t:formvalid formid="formobj" refresh="true" dialog="true" action="userController.do?delete" layout="table">
 	<input id="id" name="id" type="hidden" value="${user.id }" />
+    <input id="userName" name="userName" type="hidden" value="${user.userName }"/>
 	<input id="deleteType" name="deleteType" type="hidden" value="deleteTrue" />
 	<table cellpadding="0" cellspacing="1" class="formtable">
 		<tbody>

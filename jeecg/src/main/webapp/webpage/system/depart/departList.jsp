@@ -13,22 +13,19 @@
             <t:dgCol title="common.mobile" field="mobile" treefield="fieldMap.mobile" width="60"></t:dgCol>
             <t:dgCol title="common.fax" field="fax" treefield="fieldMap.fax" width="60"></t:dgCol>
             <t:dgCol title="common.address" field="address" treefield="fieldMap.address" width="100"></t:dgCol>
-            <t:dgCol title="common.operation" field="opt" width="200"></t:dgCol>
+            <%--<t:dgCol title="common.operation" field="opt" width="200"></t:dgCol>--%>
             <%-- <t:dgDelOpt url="departController.do?del&id={id}" title="common.delete" urlclass="ace_button"  urlfont="fa-trash-o" urlStyle="background-color:#ec4758;"></t:dgDelOpt> --%>
-            <t:dgFunOpt funname="delDepart(id)" title="common.delete" urlclass="ace_button" urlStyle="background-color:#ec4758;" urlfont="fa-trash-o"></t:dgFunOpt>
+            <%--<t:dgFunOpt funname="delDepart(id)" title="common.delete" urlclass="ace_button" urlStyle="background-color:#ec4758;" urlfont="fa-trash-o"></t:dgFunOpt>
         	<t:dgFunOpt funname="queryUsersByDepart(id)" title="view.member" urlclass="ace_button"  urlfont="fa-user"></t:dgFunOpt>
-            <t:dgFunOpt funname="setRoleByDepart(id,text)" title="role.set" urlclass="ace_button"  urlfont="fa-cog" urlStyle="background-color:#1a7bb9;"></t:dgFunOpt>
+            <t:dgFunOpt funname="setRoleByDepart(id,text)" title="role.set" urlclass="ace_button"  urlfont="fa-cog" urlStyle="background-color:#1a7bb9;"></t:dgFunOpt>--%>
         </t:datagrid>
         <div id="departListtb" style="padding: 3px; height: 25px">
             <div style="float: left;">
-                <a href="#" class="easyui-linkbutton" plain="true" icon="icon-add" onclick="addOrg()"><t:mutiLang langKey="common.add.param" langArg="common.department"/></a>
+                <%--<a href="#" class="easyui-linkbutton" plain="true" icon="icon-add" onclick="addOrg()"><t:mutiLang langKey="common.add.param" langArg="common.department"/></a>--%>
                 <a href="#" class="easyui-linkbutton" plain="true" icon="icon-edit" onclick="update('<t:mutiLang langKey="common.edit.param" langArg="common.department"/>','departController.do?update','departList','680px','450px')"><t:mutiLang langKey="common.edit.param" langArg="common.department"/></a>
-                <!-- //update--end--author:zhangjiaqiang Date:20170112 for:增加排序功能 
-                <a href="#" class="easyui-linkbutton" plain="true" icon="icon-put" onclick="ImportXls()"><t:mutiLang langKey="excelImport" langArg="common.department"/></a>
-                -->
-                <a href="#" class="easyui-linkbutton" plain="true" icon="icon-putout" onclick="ExportXls()"><t:mutiLang langKey="excelOutput" langArg="common.department"/></a>
+                <%--<a href="#" class="easyui-linkbutton" plain="true" icon="icon-putout" onclick="ExportXls()"><t:mutiLang langKey="excelOutput" langArg="common.department"/></a>
                 <a href="#" class="easyui-linkbutton" plain="true" icon="icon-putout" onclick="ExportXlsByT()"><t:mutiLang langKey="templateDownload" langArg="common.department"/></a>
-                <a href="#" class="easyui-linkbutton" plain="true" icon="icon-put" onclick="ImportDepartXls()"><t:mutiLang langKey="excelDepartImport" langArg="common.department"/></a>
+                <a href="#" class="easyui-linkbutton" plain="true" icon="icon-put" onclick="ImportDepartXls()"><t:mutiLang langKey="excelDepartImport" langArg="common.department"/></a>--%>
             </div>
         </div>
     </div>
@@ -143,8 +140,8 @@ function delDepart(id,name) {
 	var content = $.i18n.prop('del.this.confirm.msg');
 	var title = $.i18n.prop('del.confirm.title');
 	$.dialog.setting.zIndex = getzIndex(true);
-	var navigatorName = "Microsoft Internet Explorer"; 
-	if( navigator.appName == navigatorName ||"default,shortcut".indexOf(getCookie("JEECGINDEXSTYLE"))>=0){ 
+    var navigatorName = "Microsoft Internet Explorer";
+    if (navigator.appName == navigatorName || "default,shortcut".indexOf(getCookie("JEECGINDEXSTYLE")) >= 0) {
 		$.dialog.confirm(content, function(){
 			doDelSubmit(url);
 			rowid = '';
@@ -170,7 +167,7 @@ function delDepart(id,name) {
 
 /**
  * 执行操作
- * 
+ *
  * @param url
  * @param index
  */

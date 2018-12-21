@@ -2,7 +2,6 @@ package org.jeecgframework.web.system.controller.core;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.hibernate.criterion.Property;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.common.UploadFile;
@@ -26,7 +25,6 @@ import org.jeecgframework.web.system.util.OrgConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -57,6 +55,7 @@ public class UserController extends BaseController {
     private SystemService systemService;
     @Resource
     private ClientManager clientManager;
+
     @Autowired
     public void setSystemService(SystemService systemService) {
         this.systemService = systemService;
@@ -130,10 +129,6 @@ public class UserController extends BaseController {
      */
     @RequestMapping(params = "user")
     public String user(HttpServletRequest request) {
-        // 给部门查询条件中的下拉框准备数据
-        List<TSDepart> departList = systemService.getList(TSDepart.class);
-        request.setAttribute("departsReplace", RoletoJson.listToReplaceStr(departList, "departname", "id"));
-        departList.clear();
         return "system/user/userList";
     }
 
@@ -391,19 +386,16 @@ public class UserController extends BaseController {
         cq.in("status", userstate);
         cq.eq("deleteFlag", Globals.Delete_Normal);
         cq.eq("userType", Globals.USER_TYPE_SYSTEM);//用户列表不显示接口类型的用户
-
-        String orgIds = request.getParameter("orgIds");
-        List<String> orgIdList = extractIdListByComma(orgIds);
-        // 获取 当前组织机构的用户信息
-        if (!CollectionUtils.isEmpty(orgIdList)) {
-            CriteriaQuery subCq = new CriteriaQuery(TSUserOrg.class);
-            subCq.setProjection(Property.forName("tsUser.id"));
-            subCq.in("tsDepart.id", orgIdList.toArray());
-            subCq.add();
-
-            cq.add(Property.forName("id").in(subCq.getDetachedCriteria()));
-        }
-
+//        String orgIds = request.getParameter("orgIds");
+//        List<String> orgIdList = extractIdListByComma(orgIds);
+//        // 获取 当前组织机构的用户信息
+//        if (!CollectionUtils.isEmpty(orgIdList)) {
+//            CriteriaQuery subCq = new CriteriaQuery(TSUserOrg.class);
+//            subCq.setProjection(Property.forName("tsUser.id"));
+//            subCq.in("tsDepart.id", orgIdList.toArray());
+//            subCq.add();
+//            cq.add(Property.forName("id").in(subCq.getDetachedCriteria()));
+//        }
         cq.add();
         this.systemService.getDataGridReturn(cq, true);
         List<TSUser> cfeList = new ArrayList<TSUser>();
@@ -687,23 +679,23 @@ public class UserController extends BaseController {
      */
     @RequestMapping(params = "addorupdate")
     public ModelAndView addorupdate(TSUser user, HttpServletRequest req) {
-        TSDepart tsDepart = new TSDepart();
+//        TSDepart tsDepart = new TSDepart();
         if (StringUtil.isNotEmpty(user.getId())) {
             user = systemService.getEntity(TSUser.class, user.getId());
             req.setAttribute("user", user);
             idandname(req, user);
             getOrgInfos(req, user);
-
         } else {
             //组织机构关联用户录入
-            String departid = oConvertUtils.getString(req.getParameter("departid"));
-            if (StringUtils.isNotEmpty(departid)) {
-                TSDepart depart = systemService.getEntity(TSDepart.class, departid);
-                if (depart != null) {
-                    req.setAttribute("orgIds", depart.getId() + ",");
-                    req.setAttribute("departname", depart.getDepartname() + ",");
-                }
-            }
+//            屏蔽此处逻辑，因为暂时不用组织机构功能
+//            String departid = oConvertUtils.getString(req.getParameter("departid"));
+//            if (StringUtils.isNotEmpty(departid)) {
+//                TSDepart depart = systemService.getEntity(TSDepart.class, departid);
+//                if (depart != null) {
+//                    req.setAttribute("orgIds", depart.getId());
+//                    req.setAttribute("departname", depart.getDepartname());
+//                }
+//            }
             //角色管理关联用户录入
             String roleId = oConvertUtils.getString(req.getParameter("roleId"));
             if (StringUtils.isNotEmpty(roleId)) {
@@ -714,11 +706,9 @@ public class UserController extends BaseController {
                 }
             }
         }
-
-        req.setAttribute("tsDepart", tsDepart);
+//        req.setAttribute("tsDepart", tsDepart);
         return new ModelAndView("system/user/user");
     }
-
 
 
     /**
@@ -762,17 +752,17 @@ public class UserController extends BaseController {
 
     public void getOrgInfos(HttpServletRequest req, TSUser user) {
         List<TSUserOrg> tSUserOrgs = systemService.findByProperty(TSUserOrg.class, "tsUser.id", user.getId());
-        String orgIds = "";
-        String departname = "";
-        if (tSUserOrgs.size() > 0) {
-            for (TSUserOrg tSUserOrg : tSUserOrgs) {
-                orgIds += tSUserOrg.getTsDepart().getId() + ",";
-                departname += tSUserOrg.getTsDepart().getDepartname() + ",";
-            }
-        }
-        req.setAttribute("orgIds", orgIds);
-        req.setAttribute("departname", departname);
-
+        req.setAttribute("orgIds", tSUserOrgs.get(0).getTsDepart().getId());
+//        String orgIds = "";
+//        String departname = "";
+//        if (tSUserOrgs.size() > 0) {
+//            for (TSUserOrg tSUserOrg : tSUserOrgs) {
+//                orgIds += tSUserOrg.getTsDepart().getId() + ",";
+//                departname += tSUserOrg.getTsDepart().getDepartname() + ",";
+//            }
+//        }
+//        req.setAttribute("orgIds", orgIds);
+//        req.setAttribute("departname", departname);
     }
 
     /**
@@ -1289,28 +1279,4 @@ public class UserController extends BaseController {
         return "system/user/userSelect";
     }
 
-    /**
-     * 添加、编辑我的机构用户
-     *
-     * @param user
-     */
-    @RequestMapping(params = "addorupdateMyOrgUser")
-    public ModelAndView addorupdateMyOrgUser(TSUser user, HttpServletRequest req) {
-        List<String> orgIdList = new ArrayList<String>();
-        TSDepart tsDepart = new TSDepart();
-        if (StringUtil.isNotEmpty(user.getId())) {
-            user = systemService.getEntity(TSUser.class, user.getId());
-
-            req.setAttribute("user", user);
-            idandname(req, user);
-            getOrgInfos(req, user);
-        } else {
-            String departid = oConvertUtils.getString(req.getParameter("departid"));
-            TSDepart org = systemService.getEntity(TSDepart.class, departid);
-            req.setAttribute("orgIds", departid);
-            req.setAttribute("departname", org.getDepartname());
-        }
-        req.setAttribute("tsDepart", tsDepart);
-        return new ModelAndView("system/user/myOrgUser");
-    }
 }
