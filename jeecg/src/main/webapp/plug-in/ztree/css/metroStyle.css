@@ -12,7 +12,10 @@ website:    http://code.google.com/p/jquerytree/
 .ztree {margin:0; padding:5px; color:#333}
 .ztree li{padding:0; margin:0; list-style:none; line-height:17px; text-align:left; white-space:nowrap; outline:0}
 .ztree li ul{ margin:0; padding:0 0 0 18px}
-.ztree li ul.line{ background:url(./img/line_conn.png) 0 0 repeat-y;}
+
+.ztree li ul.line {
+    background: url(./img/line_conn.gif) 0 0 repeat-y;
+}
 
 .ztree li a {padding-right:3px; margin:0; cursor:pointer; height:21px; color:#333; background-color: transparent; text-decoration:none; vertical-align:top; display: inline-block}
 .ztree li a:hover {text-decoration:underline}
@@ -73,13 +76,14 @@ website:    http://code.google.com/p/jquerytree/
 .ztree li span.button.ico_close{margin-right:2px; margin-right:2px; background-position: -147px 0; vertical-align:top; *vertical-align:middle}
 /* .ztree li span.button.ico_docu{margin-right:2px; background-position: -147px -42px; vertical-align:top; *vertical-align:middle} */
 
-.ztree li span.button.ico_docu{  
-    margin-right:2px;  
-    background:url(./img/bootstrap.png) no-repeat scroll 0 0 transparent;  
-    vertical-align:top;  
-    background-position: -45px -117px;   
-    vertical-align:top;  
-    *vertical-align:middle}  
+.ztree li span.button.ico_docu {
+    margin-right: 2px;
+    background: url(./img/bootstrap.png) no-repeat scroll 0 0 transparent;
+    vertical-align: top;
+    background-position: -45px -117px;
+    vertical-align: top;
+    *vertical-align: middle
+}
 
 .ztree li span.button.edit {margin-left:2px; margin-right: -1px; background-position: -189px -21px; vertical-align:top; *vertical-align:middle}
 .ztree li span.button.edit:hover {

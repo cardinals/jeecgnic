@@ -49,10 +49,10 @@
                 <div class="login-container">
                     <div class="center">
                         <h1 id="id-text2" class="grey">
-                            <i class="ace-icon fa fa-leaf green"></i>
-                            网管中心设备管理系统
+                            <%--<i class="ace-icon fa fa-leaf green"></i>--%>
+                            <img src="images/login1.png"/>
                         </h1>
-                        <h4 class="blue">&nbsp;</h4>
+                        <%-- <h5 class="blue" >&nbsp;</h5>--%>
                     </div>
                     <div class="space-6"></div>
                     <div class="position-relative">
@@ -112,16 +112,16 @@
 
                                     </div>
                                     <%--<div class="toolbar clearfix">--%>
-                                        <div style="float: right;display: none;">
-                                            <a href="#" class="forgot-password-link">
-                                                语言
-                                                <i class="ace-icon fa fa-arrow-right"></i>
-                                                <t:dictSelect id="langCode" field="langCode" typeGroupCode="lang"
-                                                              hasLabel="false"
-                                                              extendJson="{style:'padding:2px; width:80px;'}"
-                                                              defaultVal="zh-cn"></t:dictSelect>
-                                            </a>
-                                        </div>
+                                    <div style="float: right;display: none;">
+                                        <a href="#" class="forgot-password-link">
+                                            语言
+                                            <i class="ace-icon fa fa-arrow-right"></i>
+                                            <t:dictSelect id="langCode" field="langCode" typeGroupCode="lang"
+                                                          hasLabel="false"
+                                                          extendJson="{style:'padding:2px; width:80px;'}"
+                                                          defaultVal="zh-cn"></t:dictSelect>
+                                        </a>
+                                    </div>
                                     <%--</div>--%>
                                 </form>
                             </div>
@@ -129,10 +129,6 @@
                         <%--<div class="center"><h4 class="blue">&copy; JEECG版权所有 v_3.8</h4></div>--%>
                         <%--<div class="navbar-fixed-top align-right">
                             <br/>
-                            &nbsp;
-                            <a id="btn-login-dark" class="blue" href="#" onclick="darkStyle()">Dark</a>
-                            &nbsp;
-                            <span class="blue">/</span>
                             &nbsp;
                             <a id="btn-login-blur" class="blue" href="#" onclick="blurStyle()">Blur</a>
                             &nbsp;
@@ -150,10 +146,10 @@
 
 <script type="text/javascript" src="plug-in/jquery/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="plug-in/jquery/jquery.cookie.js"></script>
-<script type="text/javascript" src="plug-in/mutiLang/en.js"></script>
+<%--<script type="text/javascript" src="plug-in/mutiLang/en.js"></script>
 <script type="text/javascript" src="plug-in/mutiLang/zh-cn.js"></script>
 <script type="text/javascript" src="plug-in/login/js/jquery.tipsy.js"></script>
-<script type="text/javascript" src="plug-in/login/js/iphone.check.js"></script>
+<script type="text/javascript" src="plug-in/login/js/iphone.check.js"></script>--%>
 <script type="text/javascript" src="webpage/login/login-ace.js"></script>
 <%=lhgdialogTheme %>
 <script type="text/javascript">

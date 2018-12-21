@@ -100,42 +100,6 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-1 col-cs-2 col-xs-4">
-            <div class="widget  p-lg text-center" style="background: #88abda;">
-                <div>
-                    <i class="iconfont icon-jixiao" style="font-size: 30px;"></i>
-                    <h3 class="font-bold no-margins"></h3>
-                    <small>功能6</small>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-1 col-cs-2 col-xs-4">
-            <div class="widget  p-lg text-center" style="background: #8c97cb;">
-                <div>
-                    <i class="iconfont icon-fangdajing-copy" style="font-size: 30px;"></i>
-                    <h3 class="font-bold no-margins"></h3>
-                    <small>功能7</small>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-1 col-cs-2 col-xs-4">
-            <div class="widget  p-lg text-center" style="background: #c490bf;">
-                <div>
-                    <i class="iconfont icon--youhuajieduan" style="font-size: 30px;"></i>
-                    <h3 class="font-bold no-margins"></h3>
-                    <small>功能8</small>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-1 col-cs-2 col-xs-4">
-            <div class="widget  p-lg text-center" style="background: #f19ec2;">
-                <div>
-                    <i class="iconfont icon-duoren" style="font-size: 30px;"></i>
-                    <h3 class="font-bold no-margins"></h3>
-                    <small>功能9</small>
-                </div>
-            </div>
-        </div>
 
     </div>
     <div class="row  border-bottom white-bg dashboard-header">

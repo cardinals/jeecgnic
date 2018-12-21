@@ -143,24 +143,26 @@ function newLogin(orgId) {
 //登录提示消息显示
 function showErrorMsg(msg) {
     $("#errMsgContiner").show();
-    $("#showErrMsg").html(msg);
+    $("#showErrMsg").html("<img src='images/warning.png' />&nbsp;" + msg);
     window.setTimeout(optErrMsg, 3000);
 }
-
 //表单验证
 function validForm() {
     if ($.trim($("#userName").val()).length == 0) {
         showErrorMsg("请输入用户名");
+        $("#userName").focus();
         return false;
     }
 
     if ($.trim($("#password").val()).length == 0) {
         showErrorMsg("请输入密码");
+        $("#password").focus();
         return false;
     }
 
     if ($.trim($("#randCode").val()).length == 0) {
         showErrorMsg("请输入验证码");
+        $("#randCode").focus();
         return false;
     }
     return true;
