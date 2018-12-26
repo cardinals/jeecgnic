@@ -11,6 +11,7 @@ import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.common.model.json.ValidForm;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.enums.SysThemesEnum;
+import org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil;
 import org.jeecgframework.core.util.*;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.entity.ExportParams;
@@ -1278,5 +1279,58 @@ public class UserController extends BaseController {
     public String userSelect() {
         return "system/user/userSelect";
     }
+
+    /**
+     * @desc：选择用户（多选）
+     * @author：justin
+     * @date：2018-12-26 16:58
+     */
+    @RequestMapping(params = "userChoose")
+    public ModelAndView userChoose(HttpServletRequest request) {
+        ModelAndView mv = new ModelAndView("system/user/userChoose");
+        String ids = oConvertUtils.getString(request.getParameter("ids"));
+        mv.addObject("ids", ids);
+        return mv;
+    }
+
+    /**
+     * @desc：用户显示列表
+     * @author：justin
+     * @date：2018-12-26 16:59
+     */
+    @RequestMapping(params = "datagridUserChoose")
+    public void datagridUserChoose(TSUser user, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+        CriteriaQuery cq = new CriteriaQuery(TSUser.class, dataGrid);
+        HqlGenerateUtil.installHql(cq, user);
+        //查询条件组装器
+        cq.eq("deleteFlag", Globals.Delete_Normal);//删除状态，不删除
+        cq.eq("userType", Globals.USER_TYPE_SYSTEM);//系统用户
+        cq.add();
+        this.systemService.getDataGridReturn(cq, true);
+        TagUtil.datagrid(response, dataGrid);
+    }
+
+//    public void addUserToOrgList(TSUser user, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+//        String roleId = request.getParameter("roleId");
+//
+//        CriteriaQuery cq = new CriteriaQuery(TSUser.class, dataGrid);
+//        org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, user);
+//
+//        // 获取 当前组织机构的用户信息
+//        CriteriaQuery subCq = new CriteriaQuery(TSRoleUser.class);
+//        subCq.setProjection(Property.forName("TSUser.id"));
+//        subCq.eq("TSRole.id", roleId);
+//        subCq.add();
+//
+//        cq.add(Property.forName("id").notIn(subCq.getDetachedCriteria()));
+//
+//        cq.eq("deleteFlag", Globals.Delete_Normal);//删除状态，不删除
+//        cq.eq("userType", Globals.USER_TYPE_SYSTEM);//系统用户
+//
+//        cq.add();
+//
+//        this.systemService.getDataGridReturn(cq, true);
+//        TagUtil.datagrid(response, dataGrid);
+//    }
 
 }
