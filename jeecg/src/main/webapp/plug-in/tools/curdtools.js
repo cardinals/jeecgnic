@@ -1,16 +1,7 @@
-﻿﻿﻿﻿﻿﻿﻿//console.log兼容问题
-if(!window.console){
-    window.console = {};
-}
-if(!window.console.log){
-    window.console.log = function(msg){};
-}
-
-//inputClick ajax请求根路径
-﻿var basePath;
+﻿﻿var basePath;
 try{
-	var local = window.location;  
-	var contextPath = local.pathname.split("/")[1];  
+    var local = window.location;
+    var contextPath = local.pathname.split("/")[1];
 	basePath = local.protocol+"//"+local.host+"/"+contextPath;
 	//alert(basePath);
 }catch(e){}
@@ -57,7 +48,7 @@ function getzIndex(flag){
 		}
 	}
 	return zindexNumber;
-} 
+}
 
 function upload(curform) {
 	upload();
@@ -209,7 +200,7 @@ function detail(title,url, id,width,height) {
 //		tip('请选择查看项目');
 //		return;
 //	}
-	
+
 	if (!rowsData || rowsData.length == 0) {
 		tip($.i18n.prop('read.selectItem'));
 		return;
@@ -267,7 +258,7 @@ function deleteALLSelect(title,url,gname) {
 
 /**
  * 查看时的弹出窗口
- * 
+ *
  * @param title
  * @param addurl
  * @param saveurl
@@ -288,7 +279,7 @@ function createdetailwindow(title, addurl,width,height) {
 			height: height,
 			title:title,
 			opacity : 0.3,
-			cache:false, 
+            cache: false,
 			okVal: $.i18n.prop('dialog.submit'),
 		    cancelVal: $.i18n.prop('dialog.close'),
 		    cancel: true /*为true等价于function(){}*/
@@ -304,7 +295,7 @@ function createdetailwindow(title, addurl,width,height) {
 			parent:windowapi,
 			title:title,
 			opacity : 0.3,
-			cache:false, 
+            cache: false,
 			okVal: $.i18n.prop('dialog.submit'),
 		    cancelVal: $.i18n.prop('dialog.close'),
 		    cancel: function(){
@@ -314,7 +305,7 @@ function createdetailwindow(title, addurl,width,height) {
 		});
 
 	}
-	
+
 }
 /**
  * 全屏编辑
@@ -350,7 +341,7 @@ function confuploadify(url, id) {
 }
 /**
  * 执行删除附件
- * 
+ *
  * @param url
  * @param index
  */
@@ -436,7 +427,7 @@ function alerLayerTip(msg) {
 		msg = $.i18n.prop('tip.error.msg');
 	}
 	try{
-		var navigatorName = "Microsoft Internet Explorer"; 
+        var navigatorName = "Microsoft Internet Explorer";
 
 		if( navigator.appName == navigatorName ||"default,shortcut".indexOf(getCookie("JEECGINDEXSTYLE"))>=0){
 
@@ -492,11 +483,11 @@ function isRealNum(val){
     }else{
         return false;
     }
-}  
+}
 //--author：zhoujf---------date：20180718---------for：弹出窗口大小控制问题
 /**
  * 创建添加或编辑窗口
- * 
+ *
  * @param title
  * @param addurl
  * @param saveurl
@@ -557,11 +548,11 @@ function createwindow(title, addurl,width,height) {
 
 	}
     //--author：JueYue---------date：20140427---------for：弹出bug修改,设置了zindex()函数
-	
+
 }
 /**
  * 创建上传页面窗口
- * 
+ *
  * @param title
  * @param addurl
  * @param saveurl
@@ -594,7 +585,7 @@ function openuploadwin(title, url,name,width, height) {
 }
 /**
  * 创建查询页面窗口
- * 
+ *
  * @param title
  * @param addurl
  * @param saveurl
@@ -626,7 +617,7 @@ function opensearchdwin(title, url, width, height) {
 }
 /**
  * 创建不带按钮的窗口
- * 
+ *
  * @param title
  * @param addurl
  * @param saveurl
@@ -714,7 +705,7 @@ function openwindow(title, url,name, width, height) {
 			});
 		}
 	}
-	
+
 	if (typeof (width) != 'undefined'&&typeof (height) != 'undefined')
 	{
 		if(typeof(windowapi) == 'undefined'){
@@ -744,7 +735,7 @@ function openwindow(title, url,name, width, height) {
 
 /**
  * 创建询问窗口
- * 
+ *
  * @param title
  * @param content
  * @param url
@@ -759,9 +750,9 @@ function createdialog(title, content, url,name,noShade) {
 //	}, function(){
 //	});
 
-	var navigatorName = "Microsoft Internet Explorer"; 
+    var navigatorName = "Microsoft Internet Explorer";
 
-	if( navigator.appName == navigatorName ||"default,shortcut".indexOf(getCookie("JEECGINDEXSTYLE"))>=0){ 
+    if (navigator.appName == navigatorName || "default,shortcut".indexOf(getCookie("JEECGINDEXSTYLE")) >= 0) {
 
 		$.dialog.confirm(content, function(){
 			doSubmit(url,name);
@@ -788,7 +779,7 @@ function createdialog(title, content, url,name,noShade) {
 }
 /**
  * 执行保存
- * 
+ *
  * @param url
  * @param gridname
  */
@@ -798,7 +789,7 @@ function saveObj() {
 
 /**
  * 执行AJAX提交FORM
- * 
+ *
  * @param url
  * @param gridname
  */
@@ -816,7 +807,7 @@ function ajaxSubForm(url) {
 }
 /**
  * 执行查询
- * 
+ *
  * @param url
  * @param gridname
  */
@@ -828,7 +819,7 @@ function search() {
 
 /**
  * 执行操作
- * 
+ *
  * @param url
  * @param index
  */
@@ -845,7 +836,7 @@ function doSubmit(url,name,data) {
 			for(var i = 0; i < strs.length; i ++) {
 				paramsData[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
 			}
-		}      
+        }
 	}
 	//--author：JueYue ---------date：20140227---------for：把URL转换成POST参数防止URL参数超出范围的问题
 	$.ajax({
@@ -867,12 +858,12 @@ function doSubmit(url,name,data) {
 			}
 		}
 	});
-	
-	
+
+
 }
 /**
  * 退出确认框
- * 
+ *
  * @param url
  * @param content
  * @param index
@@ -886,7 +877,7 @@ function exit(url, content) {
 }
 /**
  * 模板页面ajax提交
- * 
+ *
  * @param url
  * @param gridname
  */
@@ -903,7 +894,7 @@ function ajaxdoSub(url, formname) {
 }
 /**
  * ajax提交FORM
- * 
+ *
  * @param url
  * @param gridname
  */
@@ -985,14 +976,14 @@ function openauditwin(title, url, saveurl, okbutton, backbutton, closebutton) {
 
 /*获取Cookie值*/
 function getCookie(name){
-	 var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)"); 
+    var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
 	 return (arr=document.cookie.match(reg))?unescape(arr[2]):null;
 }
 /* 设置 cookie  */
 function setCookie(name, value){
-	var Days = 30; 
-    var exp = new Date(); 
-    exp.setTime(exp.getTime() + Days*24*60*60*1000); 
+    var Days = 30;
+    var exp = new Date();
+    exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
 
     document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString()+";path=/";
 
@@ -1100,7 +1091,7 @@ function closetab(title) {
 	//tip("添加成功");
 }
 
-//popup  
+//popup
 //object: this  name:需要选择的列表的字段  code:动态报表的code
 function inputClick(obj,name,code) {
 	 if(name==""||code==""){
@@ -1138,7 +1129,7 @@ function inputClick(obj,name,code) {
 					    $(obj).val(str);
 				    	return true;
 				    }
-					
+
 			    },
 			    cancelVal: $.i18n.prop('dialog.close'),
 			    cancel: true //为true等价于function(){}
@@ -1172,7 +1163,7 @@ function inputClick(obj,name,code) {
 					    $(obj).val(str);
 				    	return true;
 				    }
-					
+
 			    },
 			    cancelVal: $.i18n.prop('dialog.close'),
 			    cancel: true //为true等价于function(){}
@@ -1226,7 +1217,7 @@ function popClick(obj,name,url) {
 						 }
 				    	return true;
 				    }
-					 
+
 			    },
 			    cancelVal: $.i18n.prop('dialog.close'),
 			    cancel: true /*为true等价于function(){}*/
@@ -1268,7 +1259,7 @@ function popClick(obj,name,url) {
 						 }
 				    	return true;
 				    }
-					
+
 			    },
 			    cancelVal: $.i18n.prop('dialog.close'),
 			    cancel: true /*为true等价于function(){}*/
@@ -1287,7 +1278,7 @@ function JeecgExcelExport(url,datagridId){
 	var params = '&';
 	$.each(queryParams, function(key, val){
 		params+='&'+key+'='+val;
-	}); 
+    });
 	var fields = '&field=';
 	$.each($('#'+ datagridId).datagrid('options').columns[0], function(i, val){
 		if(val.field != 'opt'){
@@ -1364,7 +1355,7 @@ function viewNotCreateWin(title,url, id,isRestful)
 //add--end--Author:xugj date:20160531 for: TASK #1089 【demo】针对jeecgdemo，实现一个新的页面方式
 
 //add--start--Author:gengjiajia date:20160802 for: TASK #1175 批量添加数据的时popup多值的传递
-//popup  
+//popup
 //object: pobj当前操作的文本框. tablefield:对应字典TEXT,要从popup报表中获取的字段.inputnames:对应字典CODE,当前需要回填数据的文本框名称. pcode:动态报表的code
 /**
  *   object: pobj当前操作的文本框.
@@ -1399,7 +1390,7 @@ function popupClick(pobj,tablefield,inputnames,pcode) {
 					    	var inputfield = inputnames.split(",");
 					    	for(var i1=0;i1<fields.length;i1++){
 							   var str = "";
-						    	$.each( selected, function(i, n){ 
+                                $.each(selected, function (i, n) {
 						    		if (i==0)
 								    	str+= n[fields[i1]];
 							    	else{
@@ -1407,7 +1398,7 @@ function popupClick(pobj,tablefield,inputnames,pcode) {
 										str+=n[fields[i1]];
 									}
 								 });
-						    	var inputname = $(pobj).attr("name"); 
+                                var inputname = $(pobj).attr("name");
 						    	var inputs = inputname.split(".");
 						    	//判断传入的this格式是否为 "AA[#index#].aa"的形式
 						    	if(str.indexOf("undefined")==-1){
@@ -1436,7 +1427,7 @@ function popupClick(pobj,tablefield,inputnames,pcode) {
 				    		if(inputfield.length>1){
 				    			for(var i1=0;i1<inputfield.length;i1++){
 									   var str = "";
-								    	$.each( selected, function(i, n){ 
+                                    $.each(selected, function (i, n) {
 							    			if (i==0)
 							    				str+= n[inputfield[i1]];
 							    			else{
@@ -1444,7 +1435,7 @@ function popupClick(pobj,tablefield,inputnames,pcode) {
 							    				str+=n[inputfield[i1]];
 							    			}
 										 });
-								    	var inputname = $(pobj).attr("name"); 
+                                    var inputname = $(pobj).attr("name");
 								    	var inputs = inputname.split(".");
 								    	if(str.indexOf("undefined")==-1){
 								    		if(inputs.length>1){
@@ -1471,7 +1462,7 @@ function popupClick(pobj,tablefield,inputnames,pcode) {
 							    	else
 						    		str+= ","+n[inputfield];
 						    	});
-						    	var inputname = $(pobj).attr("name"); 
+                                var inputname = $(pobj).attr("name");
 						    	var inputs = inputname.split(".");
 						    	if(str.indexOf("undefined")==-1){
 						    		if(inputs.length>1){
@@ -1496,7 +1487,7 @@ function popupClick(pobj,tablefield,inputnames,pcode) {
 				    	}
 				    	return true;
 				    }
-					
+
 			    },
 			    cancelVal: $.i18n.prop('dialog.close'),
 			    cancel: true // 为true等价于function(){}
@@ -1524,7 +1515,7 @@ function popupClick(pobj,tablefield,inputnames,pcode) {
 					    	var inputfield = inputnames.split(",");
 					    	for(var i1=0;i1<fields.length;i1++){
 							   var str = "";
-						    	$.each( selected, function(i, n){ 
+                                $.each(selected, function (i, n) {
 						    		if (i==0)
 								    	str+= n[fields[i1]];
 							    	else{
@@ -1532,7 +1523,7 @@ function popupClick(pobj,tablefield,inputnames,pcode) {
 										str+=n[fields[i1]];
 									}
 								 });
-						    	var inputname = $(pobj).attr("name"); 
+                                var inputname = $(pobj).attr("name");
 						    	var inputs = inputname.split(".");
 						    	//判断传入的this格式是否为 "AA[#index#].aa"的形式
 						    	if(str.indexOf("undefined")==-1){
@@ -1557,7 +1548,7 @@ function popupClick(pobj,tablefield,inputnames,pcode) {
 				    		if(inputfield.length>1){
 				    			for(var i1=0;i1<inputfield.length;i1++){
 									   var str = "";
-								    	$.each( selected, function(i, n){ 
+                                    $.each(selected, function (i, n) {
 							    			if (i==0)
 							    				str+= n[inputfield[i1]];
 							    			else{
@@ -1565,7 +1556,7 @@ function popupClick(pobj,tablefield,inputnames,pcode) {
 							    				str+=n[inputfield[i1]];
 							    			}
 										 });
-								    	var inputname = $(pobj).attr("name"); 
+                                    var inputname = $(pobj).attr("name");
 								    	var inputs = inputname.split(".");
 								    	if(str.indexOf("undefined")==-1){
 								    		if(inputs.length>1){
@@ -1592,7 +1583,7 @@ function popupClick(pobj,tablefield,inputnames,pcode) {
 							    	else
 						    		str+= ","+n[inputfield];
 						    	});
-						    	var inputname = $(pobj).attr("name"); 
+                                var inputname = $(pobj).attr("name");
 						    	var inputs = inputname.split(".");
 						    	if(str.indexOf("undefined")==-1){
 						    		if(inputs.length>1){
@@ -1613,8 +1604,8 @@ function popupClick(pobj,tablefield,inputnames,pcode) {
 				    	}
 				    	return true;
 				    }
-					
-			    },
+
+                },
 			    cancelVal: $.i18n.prop('dialog.close'),
 			    cancel: true // 为true等价于function(){}
 			});
@@ -1628,12 +1619,12 @@ function popupClick(pobj,tablefield,inputnames,pcode) {
 var bigImgIndex = null;
 function tipImg(obj,level){
 	try{
-		var navigatorName = "Microsoft Internet Explorer"; 
-		if( navigator.appName != navigatorName ){ 
+        var navigatorName = "Microsoft Internet Explorer";
+        if (navigator.appName != navigatorName) {
 			if(obj.nodeName == 'IMG'){
 				var e = window.event;
 				var x = e.clientX+document.body.scrollLeft + document.documentElement.scrollLeft
-				var y = e.clientY+document.body.scrollTop + document.documentElement.scrollTop 
+                var y = e.clientY + document.body.scrollTop + document.documentElement.scrollTop
 				var src = obj.src;
 				var width = obj.naturalWidth;
 				var height = obj.naturalHeight;
@@ -1658,7 +1649,7 @@ function tipImg(obj,level){
 		}
 	}catch(e){
 	}
-	
+
 }
 
 function moveTipImg(level){
@@ -1675,8 +1666,8 @@ function moveTipImg(level){
 
 		}
 	}catch(e){
-		
-	}
+
+    }
 }
 function treeFormater(value,row,index){
 	return getTreeResult(value);
@@ -1699,8 +1690,8 @@ function getTreeResult(value){
 		}else{
 			return getResult(value);
 		}
-		
-	}else{
+
+    }else{
 		return value;
 	}
 }
@@ -1747,7 +1738,7 @@ function initI18nConfig() {
         mode:'map',
         language:i18n_browser_Lang,//这就是国家代号 name+language刚好组成属性文件名：strings+zh -> strings_zh.properties
         callback:function(){
-       	
+
         }
     });
 }
@@ -1784,7 +1775,7 @@ function optsMenuToggle(data){
 	  var dgPanel = $("#"+data).datagrid('getPanel');
 
 	  var tr = dgPanel.find('div.datagrid-body tr');
-	  tr.each(function(){   
+    tr.each(function () {
 	     var td = tr.children('td[field="opt"]');
 	     var toggleIcon = td.find(".opts-menu-triangle");
 	     toggleIcon.mouseenter(function(){
@@ -1803,7 +1794,7 @@ function optsMenuToggle(data){
 	     });
 	 });
 
-} 
+}
 //点击页面当中的其他部分，隐藏分组按钮
 $(document).click(function(){
     $(".datagrid-cell").removeClass("menu-active");
@@ -1832,8 +1823,8 @@ function loadAjaxDict(rowData){
 				$this.html(data.obj);
 			}
 		});
-		
-	});
+
+    });
 }
 
 function toggleMoreToolbars(obj){

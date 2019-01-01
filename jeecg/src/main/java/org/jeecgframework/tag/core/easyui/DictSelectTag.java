@@ -1,13 +1,6 @@
 package org.jeecgframework.tag.core.easyui;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.jsp.JspTagException;
-import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.tagext.TagSupport;
-
+import com.google.gson.Gson;
 import org.apache.commons.lang.StringUtils;
 import org.jeecgframework.core.util.ApplicationContextUtil;
 import org.jeecgframework.core.util.MutiLangUtil;
@@ -17,12 +10,17 @@ import org.jeecgframework.web.system.pojo.base.TSTypegroup;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.google.gson.Gson;
+import javax.servlet.jsp.JspTagException;
+import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.tagext.TagSupport;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 /**
- * 
+ *
  * 选择下拉框
- * 
+ *
  * @author: lianglaiyang
  * @date： 日期：2013-04-18
  * @version 1.0
@@ -46,7 +44,7 @@ public class DictSelectTag extends TagSupport {
 	private String readonly;// 只读属性
 	private String dictCondition;//查询条件属性
 	private String datatype;//校验类型 validform，必须输入规则：*
-	
+
 	@Autowired
 	private static SystemService systemService;
 
@@ -95,7 +93,7 @@ public class DictSelectTag extends TagSupport {
 	}
 
 	public StringBuffer end() {
-		
+
 		StringBuffer sb = new StringBuffer();
 		if (StringUtils.isBlank(divClass)) {
 			divClass = "form"; // 默认form样式
@@ -205,8 +203,8 @@ public class DictSelectTag extends TagSupport {
 		Map<String, String> mp = gson.fromJson(extendJson, Map.class);
 		StringBuffer sb=new StringBuffer();
 		sb.append(" ");
-		for(Map.Entry<String, String> entry: mp.entrySet()) { 
-			//判断select标签中是否含有style属性
+        for (Map.Entry<String, String> entry : mp.entrySet()) {
+            //判断select标签中是否含有style属性
 			if(entry.getKey().equals("style")){
 				//并且readonly属性不为空
 				if(StringUtils.isNotBlank(readonly) &&readonly.equals("readonly")){
@@ -242,10 +240,10 @@ public class DictSelectTag extends TagSupport {
 
 	/**
 	 * 单选框方法
-	 * 
-	 * @作者：Alexander
-	 * 
-	 * @param name
+     *
+     * @作者：Alexander
+     *
+     * @param name
 	 * @param code
 	 * @param sb
 	 */
@@ -273,10 +271,10 @@ public class DictSelectTag extends TagSupport {
 
 	/**
 	 * 复选框方法
-	 * 
-	 * @作者：Alexander
-	 * 
-	 * @param name
+     *
+     * @作者：Alexander
+     *
+     * @param name
 	 * @param code
 	 * @param sb
 	 */
@@ -321,10 +319,10 @@ public class DictSelectTag extends TagSupport {
 
 	/**
 	 * 选择框方法
-	 * 
-	 * @作者：Alexander
-	 * 
-	 * @param name
+     *
+     * @作者：Alexander
+     *
+     * @param name
 	 * @param code
 	 * @param sb
 	 */
@@ -350,8 +348,8 @@ public class DictSelectTag extends TagSupport {
 
 	/**
 	 * 查询自定义数据字典
-	 * 
-	 * @作者：Alexander
+     *
+     * @作者：Alexander
 	 */
 	private List<Map<String, Object>> queryDic() {
 		String sql = "select " + dictField + " as field," + dictText
@@ -366,8 +364,8 @@ public class DictSelectTag extends TagSupport {
 		List<Map<String, Object>> list = systemService.findForJdbc(sql);
 		return list;
 	}
-	
-	/**
+
+    /**
 	 * 加入datatype属性,并加入非空验证作为默认值
 	 * @param sb
 	 * @return
@@ -378,8 +376,8 @@ public class DictSelectTag extends TagSupport {
 		}
 		return sb;
 	}
-	
-	/**
+
+    /**
 	 * 加入readonly 属性,当此属性值为 readonly时，设置控件只读
 	 * @author jg_xugj
 	 * @param sb
@@ -395,12 +393,11 @@ public class DictSelectTag extends TagSupport {
 				sb.append(" readonly=\"readonly\" style=\"background-color:#eee;cursor:no-drop;\" disabled=\"true\" ");
 			}
 			else if ("text".equals(type)) {
-			
-			} 
-			else if("list".equals(type)){
+
+            } else if("list".equals(type)){
 					sb.append(" readonly=\"readonly\" style=\"background-color:#eee;cursor:no-drop;\" ");
-						
-			}else{
+
+            }else{
 				sb.append(" readonly=\"readonly\" style=\"background-color:#eee;cursor:no-drop;\" ");
 			}
 		}

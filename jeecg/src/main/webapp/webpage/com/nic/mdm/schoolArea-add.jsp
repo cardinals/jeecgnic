@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>用户信息</title>
+    <title>校区管理</title>
     <t:base type="jquery,easyui,tools"></t:base>
 </head>
 <body>

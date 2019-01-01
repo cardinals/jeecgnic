@@ -51,7 +51,7 @@ public class SchoolAreaController extends BaseController {
      */
     @RequestMapping(params = "schoolAreaList")
     public ModelAndView schoolAreaList(HttpServletRequest request) {
-        return new ModelAndView("com/nic/schoolAreaList");
+        return new ModelAndView("com/nic/mdm/schoolAreaList");
     }
 
     /**
@@ -104,7 +104,7 @@ public class SchoolAreaController extends BaseController {
             req.setAttribute("schoolArea", schoolArea);
             getManagers(req, schoolArea);
         }
-        return new ModelAndView("com/nic/schoolArea-add");
+        return new ModelAndView("com/nic/mdm/schoolArea-add");
     }
 
     /**
@@ -135,26 +135,33 @@ public class SchoolAreaController extends BaseController {
     @RequestMapping(params = "save")
     @ResponseBody
     public AjaxJson save(SchoolAreaEntity schoolArea, HttpServletRequest req) {
-        String message = null;
         AjaxJson j = new AjaxJson();
         // 得到校区管理员用户
         String userIds = oConvertUtils.getString(req.getParameter("userId"));
-        if (StringUtil.isNotEmpty(schoolArea.getId())) {
-            SchoolAreaEntity sa = systemService.getEntity(SchoolAreaEntity.class, schoolArea.getId());
-            sa.setAreaName(schoolArea.getAreaName());
-            this.schoolAreaService.saveSchoolArea(sa, userIds.split(","));
-            message = "校区: " + schoolArea.getAreaName() + "更新成功";
-        } else {
-            SchoolAreaEntity sa = systemService.findUniqueByProperty(SchoolAreaEntity.class, "areaCode", schoolArea.getAreaCode());
-            if (sa != null) {
-                message = "校区编码: " + schoolArea.getAreaCode() + "已经存在";
+        try {
+            if (StringUtil.isNotEmpty(schoolArea.getId())) {
+                SchoolAreaEntity sa = systemService.getEntity(SchoolAreaEntity.class, schoolArea.getId());
+                sa.setAreaName(schoolArea.getAreaName());
+                this.schoolAreaService.saveSchoolArea(sa, userIds.split(","));
+                j.setMsg("校区: " + schoolArea.getAreaName() + "更新成功");
+                j.setSuccess(true);
             } else {
-                this.schoolAreaService.saveSchoolArea(schoolArea, userIds.split(","));
-                message = "校区: " + schoolArea.getAreaName() + "添加成功";
+                SchoolAreaEntity sa = systemService.findUniqueByProperty(SchoolAreaEntity.class, "areaCode", schoolArea.getAreaCode());
+                if (sa != null) {
+                    j.setMsg("校区编码: " + schoolArea.getAreaCode() + "已经存在");
+                    j.setSuccess(false);
+                } else {
+                    this.schoolAreaService.saveSchoolArea(schoolArea, userIds.split(","));
+                    j.setMsg("校区: " + schoolArea.getAreaName() + "添加成功");
+                    j.setSuccess(true);
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            j.setMsg("操作失败：" + e.getMessage());
+            j.setSuccess(false);
         }
-        j.setMsg(message);
-        logger.info("[" + IpUtil.getIpAddr(req) + "][添加编辑校区]" + message);
+        logger.info("[" + IpUtil.getIpAddr(req) + "][添加编辑校区]" + j.getMsg());
         return j;
     }
 
@@ -166,17 +173,18 @@ public class SchoolAreaController extends BaseController {
     @RequestMapping(params = "delSchoolArea")
     @ResponseBody
     public AjaxJson delSchoolArea(SchoolAreaEntity schoolArea, HttpServletRequest req) {
-        String message = "删除成功";
         AjaxJson j = new AjaxJson();
         try {
             String id = oConvertUtils.getString(req.getParameter("id"));
             schoolAreaService.delSchoolArea(id);
-            logger.info("[" + IpUtil.getIpAddr(req) + "][删除校区数据]" + message);
+            j.setMsg("删除成功");
+            j.setSuccess(true);
         } catch (Exception e) {
             e.printStackTrace();
-            message = "删除失败";
+            j.setMsg("删除失败：" + e.getMessage());
+            j.setSuccess(false);
         }
-        j.setMsg(message);
+        logger.info("[" + IpUtil.getIpAddr(req) + "][删除校区数据]" + j.getMsg());
         return j;
     }
 

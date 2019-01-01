@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jeecgframework</groupId>
-	<artifactId>jeecg</artifactId>
+    <artifactId>nicStore</artifactId>
 	<version>3.8</version>
 	<packaging>war</packaging>
 
@@ -153,6 +153,13 @@
 			<scope>system</scope>
           	<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/jeecg-common-plugin-ui-1.0.0-20180813.jar</systemPath>
 		</dependency>
+        <dependency>
+            <groupId>com.jnc</groupId>
+            <artifactId>springmvc-configdebug</artifactId>
+            <version>0.0.1</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/springmvc-configdebug-0.0.1.jar</systemPath>
+        </dependency>
 		<!-- 自定义的依赖包  end -->
 
 		<!-- SPRING start -->

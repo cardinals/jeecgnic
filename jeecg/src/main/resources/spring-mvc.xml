@@ -220,6 +220,10 @@
     <import resource="classpath*:org/jeecgframework/web/cgform/common/spring-mvc-cgform.xml"/>
     <!-- 配置 redis -->
     <import resource="classpath:redis.xml"/>
+
+    <!-- debug plugin config start -->
+    <import resource="classpath*:applicationContext-configDebug.xml"/>
+    <!-- debug plugin config end -->
     <!-- Jeecg 插件开发 -->
     <!--<bean class="org.jeecgframework.p3.core.utils.common.ApplicationContextUtil"></bean>
     <import resource="classpath:config/spring-config-p3.xml" />-->
