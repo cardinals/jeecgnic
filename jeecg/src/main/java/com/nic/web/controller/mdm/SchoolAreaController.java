@@ -76,10 +76,12 @@ public class SchoolAreaController extends BaseController {
                         String userName = "";
                         for (SchoolAreaUserEntity sa : auList) {
                             TSUser user = systemService.findUniqueByProperty(TSUser.class, "id", sa.getUserId());
-                            if (StringUtil.isEmpty(userName)) {
-                                userName += user.getRealName();
-                            } else {
-                                userName += "," + user.getRealName();
+                            if (user != null) {
+                                if (StringUtil.isEmpty(userName)) {
+                                    userName += user.getRealName();
+                                } else {
+                                    userName += "," + user.getRealName();
+                                }
                             }
                         }
                         sae.setManagers(userName);
@@ -119,12 +121,14 @@ public class SchoolAreaController extends BaseController {
             String userNames = "";
             for (SchoolAreaUserEntity sa : auList) {
                 TSUser user = systemService.findUniqueByProperty(TSUser.class, "id", sa.getUserId());
-                if (StringUtil.isEmpty(userIds)) {
-                    userIds += user.getId();
-                    userNames += user.getRealName();
-                } else {
-                    userIds += "," + user.getId();
-                    userNames += "," + user.getRealName();
+                if (user != null) {
+                    if (StringUtil.isEmpty(userIds)) {
+                        userIds += user.getId();
+                        userNames += user.getRealName();
+                    } else {
+                        userIds += "," + user.getId();
+                        userNames += "," + user.getRealName();
+                    }
                 }
             }
             req.setAttribute("userIds", userIds);
