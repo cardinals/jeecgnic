@@ -46,20 +46,20 @@ public class StoreOrderServiceImpl extends CommonServiceImpl implements IStoreOr
                 if (CollectionUtils.isNotEmpty(list)) {//库存信息表中存在数量，则进行更新
                     StoreDetailEntity sde = list.get(0);
                     sde.setTotalNum(sde.getTotalNum() + line.getNum());
-                    commonDao.updateEntitie(sde);
+                    this.updateEntitie(sde);
                 } else {//库存信息表中不存在，则新增数据
                     StoreDetailEntity sde = new StoreDetailEntity();
                     sde.setStoreCode(storeCode);
                     sde.setMatnr(line.getMatnr());
                     sde.setTotalNum(line.getNum());
-                    commonDao.save(sde);
+                    this.save(sde);
                 }
             } else {//出库单，扣减库存
                 List<StoreDetailEntity> list = commonDao.findHql("from StoreDetailEntity where storeCode=? and matnr=?", storeCode, line.getMatnr());
                 if (CollectionUtils.isNotEmpty(list)) {
                     StoreDetailEntity sde = list.get(0);
                     sde.setTotalNum(sde.getTotalNum() - line.getNum());
-                    commonDao.updateEntitie(sde);
+                    this.updateEntitie(sde);
                 } else {
                     throw new RuntimeException("数据错误！未找到相应的库存信息！");
                 }

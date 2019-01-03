@@ -5,28 +5,36 @@ import java.io.Serializable;
 /**
  * @version V0.1
  * @项目名称：jeecg
- * @类名称：StoreDetailPage
+ * @类名称：StoreMovePage
  * @类描述：
  * @创建人：justin
- * @创建时间：2019-01-01 14:54
+ * @创建时间：2019-01-03 11:31
  */
-public class StoreDetailPage implements Serializable {
+public class StoreMovePage implements Serializable {
     /**
      * ID
      */
     private String id;
     /**
-     * 仓库编码
+     * 单据号
      */
-    private String storeCode;
+    private String orderNo;
     /**
      * 仓库编码
      */
-    private String storeName;
+    private String storeFromCode;
+    /**
+     * 仓库名称
+     */
+    private String storeFromName;
     /**
      * 仓库编码
      */
-    private String address;
+    private String storeToCode;
+    /**
+     * 仓库名称
+     */
+    private String storeToName;
     /**
      * 物料类型
      */
@@ -52,9 +60,9 @@ public class StoreDetailPage implements Serializable {
      */
     private String norms;
     /**
-     * 库存数量
+     * 转仓数量
      */
-    private Integer totalNum;
+    private Integer num;
 
     public String getId() {
         return id;
@@ -64,28 +72,45 @@ public class StoreDetailPage implements Serializable {
         this.id = id;
     }
 
-    public String getStoreCode() {
-        return storeCode;
+    public String getOrderNo() {
+        return orderNo;
     }
 
-    public void setStoreCode(String storeCode) {
-        this.storeCode = storeCode;
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
     }
 
-    public String getStoreName() {
-        return storeName;
+    public String getStoreFromCode() {
+        return storeFromCode;
     }
 
-    public void setStoreName(String storeName) {
-        this.storeName = storeName;
+    public void setStoreFromCode(String storeFromCode) {
+        this.storeFromCode = storeFromCode;
     }
 
-    public String getAddress() {
-        return address;
+    public String getStoreFromName() {
+        return storeFromName;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setStoreFromName(String storeFromName) {
+        this.storeFromName = storeFromName;
+    }
+
+
+    public String getStoreToCode() {
+        return storeToCode;
+    }
+
+    public void setStoreToCode(String storeToCode) {
+        this.storeToCode = storeToCode;
+    }
+
+    public String getStoreToName() {
+        return storeToName;
+    }
+
+    public void setStoreToName(String storeToName) {
+        this.storeToName = storeToName;
     }
 
     public String getMaraType() {
@@ -136,11 +161,11 @@ public class StoreDetailPage implements Serializable {
         this.norms = norms;
     }
 
-    public Integer getTotalNum() {
-        return totalNum;
+    public Integer getNum() {
+        return num;
     }
 
-    public void setTotalNum(Integer totalNum) {
-        this.totalNum = totalNum;
+    public void setNum(Integer num) {
+        this.num = num;
     }
 }

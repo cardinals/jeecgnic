@@ -56,8 +56,14 @@
                 <label class="Validform_label">入库人:</label>
             </td>
             <td class="value">
-                <input id="operatorName" class="inputxt" name="operatorName"
-                       value="${storeOrder.operatorName }" datatype="*"/>
+                <c:if test="${storeOrder.id==null }">
+                    <input id="operatorName" class="inputxt" name="operatorName"
+                           value="${username}" datatype="*"/>
+                </c:if>
+                <c:if test="${storeOrder.id!=null }">
+                    <input id="operatorName" class="inputxt" name="operatorName"
+                           value="${storeOrder.operatorName }" datatype="*"/>
+                </c:if>
                 <span class="Validform_checktip"></span>
                 <label class="Validform_label" style="display: none;">入库人</label>
             </td>
@@ -75,7 +81,7 @@
             <%-- 增加一个div，用于调节页面大小，否则默认太小 --%>
         <div style="width:800px;height:1px;"></div>
         <t:tabs id="tt" iframe="false" tabPosition="top" fit="false">
-            <t:tab href="storeOrderController.do?storeOrderLineList&orderNo=${storeOrder.orderNo}" icon="icon-search"
+            <t:tab href="storeOrderController.do?storeOrderInLineList&orderNo=${storeOrder.orderNo}" icon="icon-search"
                    title="设备信息" id="storeOrderLine"></t:tab>
         </t:tabs>
     </div>
@@ -111,7 +117,7 @@
         </td>
         <td align="center">
             <input id="num[#index#]" name="orderLines[#index#].num" type="text" class="inputxt"
-                   style="width:110px;" datatype="n"/>
+                   style="width:110px;" datatype="numrange" min="0" max="1000000"/>
             <label class="Validform_label" style="display: none;">数量</label>
         </td>
     </tr>
@@ -127,54 +133,4 @@
             return false;
         }
     }
-
-    //选择设备信息
-    function openMaraSelect(obj) {
-        $.dialog.setting.zIndex = getzIndex();
-        var id = $(obj).attr("id");
-        $.dialog({
-            content: 'url:maraController.do?maraSelectList&id=' + id,
-            zIndex: getzIndex(),
-            title: '设备信息列表',
-            lock: true,
-            width: '800px',
-            height: '380px',
-            opacity: 0.4,
-            button: [{
-                name: '确定',
-                callback: callbackMaraSelect,
-                focus: true
-            },
-                {
-                    name: '取消',
-                    callback: function () {
-                    }
-                }]
-        }).zindex();
-    }
-
-    function callbackMaraSelect() {
-        var iframe = this.iframe.contentWindow;
-        var rowsData = iframe.$("#maraSelectList").datagrid('getSelections');
-        if (rowsData.length == 0) {
-            iframe.tip("请选择需要添加的设备！");
-            return false;
-        } else if (rowsData.length > 1) {
-            iframe.tip("只能选择一条设备信息进行添加！");
-            return false;
-        } else {
-            var rdata = rowsData[0];
-            var hid = iframe.$("#hid").val();
-            var s = hid.indexOf("[");
-            var e = hid.indexOf("]");
-            var indexId = hid.substring(s + 1, e);
-            $("#matnr\\[" + indexId + "\\]").val(rdata.matnr);
-            $("#maktx\\[" + indexId + "\\]").val(rdata.maktx);
-            $("#unit\\[" + indexId + "\\]").val(rdata.unit);
-            $("#model\\[" + indexId + "\\]").val(rdata.model);
-            $("#norms\\[" + indexId + "\\]").val(rdata.norms);
-        }
-    }
-
-
 </script>

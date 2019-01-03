@@ -36,7 +36,7 @@ public class StoreOrderLinePage implements Serializable {
      */
     private String norms;
     /**
-     * 数量
+     * 出入库数量
      */
     private Integer num;
 

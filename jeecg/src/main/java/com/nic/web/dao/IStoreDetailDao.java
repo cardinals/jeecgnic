@@ -24,4 +24,13 @@ public interface IStoreDetailDao {
     @Arguments({"storeDetail", "page", "rows"})
     @ResultType(StoreDetailPage.class)
     public MiniDaoPage queryStoreDetailList(StoreDetailPage storeDetail, int page, int rows);
+
+    /**
+     * @desc：分页查询库存信息
+     * @author：justin
+     * @date：2019-01-03 10:31
+     */
+    @Arguments({"storeDetail", "page", "rows"})
+    @ResultType(StoreDetailPage.class)
+    public MiniDaoPage datagrid(StoreDetailPage storeDetail, int page, int rows);
 }

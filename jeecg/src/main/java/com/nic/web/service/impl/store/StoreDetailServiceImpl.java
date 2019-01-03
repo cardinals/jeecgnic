@@ -27,4 +27,9 @@ public class StoreDetailServiceImpl extends CommonServiceImpl implements IStoreD
     public MiniDaoPage queryStoreDetailList(StoreDetailPage storeDetail, int page, int rows) {
         return storeDetailDao.queryStoreDetailList(storeDetail, page, rows);
     }
+
+    @Override
+    public MiniDaoPage datagrid(StoreDetailPage storeDetail, int page, int rows) {
+        return storeDetailDao.datagrid(storeDetail, page, rows);
+    }
 }

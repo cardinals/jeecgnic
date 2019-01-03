@@ -55,7 +55,7 @@
         </tr>
         <tr>
             <td align="right" width="10%" nowrap>
-                <label class="Validform_label">仓库名称: </label>
+                <label class="Validform_label">管理员电话: </label>
             </td>
             <td class="value" width="10%">
                 <input id="telphone" class="inputxt" name="telphone" value="${storeInfo.telphone }"/>

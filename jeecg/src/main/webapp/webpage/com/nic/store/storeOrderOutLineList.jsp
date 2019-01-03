@@ -36,7 +36,7 @@
         <td align="center" bgcolor="#EEEEEE" style="width: 126px;">
             设备名称
         </td>
-        <td align="center" bgcolor="#EEEEEE" style="width: 110px;">
+        <td align="center" bgcolor="#EEEEEE" style="width: 50px;">
             单位
         </td>
         <td align="center" bgcolor="#EEEEEE" style="width: 110px;">
@@ -45,8 +45,13 @@
         <td align="center" bgcolor="#EEEEEE" style="width: 110px;">
             规格
         </td>
+        <c:if test="${orderNo==null }">
+            <td align="center" bgcolor="#EEEEEE" style="width: 50px;">
+                库存数
+            </td>
+        </c:if>
         <td align="center" bgcolor="#EEEEEE" style="width: 110px;">
-            数量
+            出库数
         </td>
     </tr>
     <tbody id="add_storeOrderLine_table">
@@ -65,7 +70,7 @@
                 <label class="Validform_label" style="display: none;">设备名称</label>
             </td>
             <td align="center">
-                <input id="unit[0]" name="orderLines[0].unit" type="text" class="inputxt" style="width:110px;"
+                <input id="unit[0]" name="orderLines[0].unit" type="text" class="inputxt" style="width:50px;"
                        readonly="readonly">
                 <label class="Validform_label" style="display: none;">单位</label>
             </td>
@@ -79,10 +84,18 @@
                        readonly="readonly">
                 <label class="Validform_label" style="display: none;">规格</label>
             </td>
+            <c:if test="${orderNo==null }">
+                <td align="center">
+                    <input id="storeNum[0]" name="orderLines[0].storeNum" type="text" class="inputxt"
+                           style="width:50px;"
+                           readonly="readonly">
+                    <label class="Validform_label" style="display: none;">库存数</label>
+                </td>
+            </c:if>
             <td align="center">
                 <input id="num[0]" name="orderLines[0].num" type="text" class="inputxt" style="width:110px;"
-                       datatype="n">
-                <label class="Validform_label" style="display: none;">数量</label>
+                       datatype="numrange" min="0" max="1000000">
+                <label class="Validform_label" style="display: none;">出库数</label>
             </td>
         </tr>
     </c:if>
@@ -105,7 +118,7 @@
                 </td>
                 <td align="center">
                     <input id="unit[${stuts.index}]" name="orderLines[${stuts.index}].unit" type="text" class="inputxt"
-                           style="width:110px;" readonly="readonly" value="${poVal.unit }">
+                           style="width:50px;" readonly="readonly" value="${poVal.unit }">
                     <label class="Validform_label" style="display: none;">单位</label>
                 </td>
                 <td align="center">
@@ -118,13 +131,80 @@
                            class="inputxt" style="width:110px;" readonly="readonly" value="${poVal.norms }">
                     <label class="Validform_label" style="display: none;">规格</label>
                 </td>
+                <c:if test="${orderNo==null }">
+                    <td align="center">
+                        <input id="storeNum[${stuts.index}]" name="orderLines[${stuts.index}].storeNum" type="text"
+                               class="inputxt" style="width:50px;" readonly="readonly" value="">
+                        <label class="Validform_label" style="display: none;">库存数</label>
+                    </td>
+                </c:if>
                 <td align="center">
                     <input id="num[${stuts.index}]" name="orderLines[${stuts.index }].num" type="text" class="inputxt"
                            style="width:110px;" datatype="n" value="${poVal.num }"/>
-                    <label class="Validform_label" style="display: none;">数量</label>
+                    <label class="Validform_label" style="display: none;">出库数</label>
                 </td>
             </tr>
         </c:forEach>
     </c:if>
     </tbody>
 </table>
+<script>
+    //选择设备信息
+    function openMaraSelect(obj) {
+        var storeCode = $("#storeCode").val();
+        if (storeCode == "") {
+            tip("请先选择仓库！");
+            return false;
+        } else {
+            $.dialog.setting.zIndex = getzIndex();
+            var id = $(obj).attr("id");
+            $.dialog({
+                content: 'url:storeDetailController.do?selectStoreDetail&id=' + id + '&storeCode=' + storeCode,
+                zIndex: getzIndex(),
+                title: '设备信息列表',
+                lock: true,
+                width: '800px',
+                height: '380px',
+                opacity: 0.4,
+                button: [{
+                    name: '确定',
+                    callback: callbackMaraSelect,
+                    focus: true
+                },
+                    {
+                        name: '取消',
+                        callback: function () {
+                        }
+                    }]
+            }).zindex();
+        }
+    }
+
+    function callbackMaraSelect() {
+        var iframe = this.iframe.contentWindow;
+        var rowsData = iframe.$("#selectStoreDetailList").datagrid('getSelections');
+        if (rowsData.length == 0) {
+            iframe.tip("请选择需要添加的设备！");
+            return false;
+        } else if (rowsData.length > 1) {
+            iframe.tip("只能选择一条设备信息进行添加！");
+            return false;
+        } else {
+            var rdata = rowsData[0];
+            var hid = iframe.$("#hid").val();
+            var s = hid.indexOf("[");
+            var e = hid.indexOf("]");
+            var indexId = hid.substring(s + 1, e);
+            $("#matnr\\[" + indexId + "\\]").val(rdata.matnr);
+            $("#maktx\\[" + indexId + "\\]").val(rdata.maktx);
+            $("#unit\\[" + indexId + "\\]").val(rdata.unit);
+            $("#model\\[" + indexId + "\\]").val(rdata.model);
+            $("#norms\\[" + indexId + "\\]").val(rdata.norms);
+            $("#storeNum\\[" + indexId + "\\]").val(rdata.totalNum);
+            //清空出库数
+            $("#num\\[" + indexId + "\\]").val("");
+            $("#num\\[" + indexId + "\\]").attr("max", rdata.totalNum);
+        }
+    }
+
+</script>

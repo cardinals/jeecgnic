@@ -25,10 +25,10 @@ public class SchoolAreaServiceImpl extends CommonServiceImpl implements ISchoolA
     public void saveSchoolArea(SchoolAreaEntity schoolArea, String[] userIds) {
         if (StringUtil.isNotEmpty(schoolArea.getId())) {
             commonDao.executeSql("delete from school_area_user where area_id=?", schoolArea.getId());
-            this.commonDao.updateEntitie(schoolArea);
+            this.updateEntitie(schoolArea);
         } else {
             //保存校区信息
-            this.commonDao.save(schoolArea);
+            this.save(schoolArea);
         }
         //保存校区与人员关系（校区管理员信息）
         if (userIds != null && userIds.length > 0) {
@@ -37,7 +37,7 @@ public class SchoolAreaServiceImpl extends CommonServiceImpl implements ISchoolA
                 SchoolAreaUserEntity areaUser = new SchoolAreaUserEntity();
                 areaUser.setAreaId(schoolArea.getId());
                 areaUser.setUserId(userIds[i]);
-                commonDao.save(areaUser);
+                this.save(areaUser);
             }
         }
     }

@@ -76,14 +76,14 @@
                                         <label class="block clearfix">
 								<span class="block input-icon input-icon-right">
 									<input type="text" name="userName" iscookie="true" class="form-control"
-                                           placeholder="请输入用户名" id="userName" value="admin"/>
+                                           placeholder="请输入用户名" id="userName" value=""/>
 									<i class="ace-icon fa fa-user"></i>
 								</span>
                                         </label>
                                         <label class="block clearfix">
 								<span class="block input-icon input-icon-right">
 									<input type="password" name="password" class="form-control" placeholder="请输入密码"
-                                           id="password" value="123456"/>
+                                           id="password" value=""/>
 									<i class="ace-icon fa fa-lock"></i>
 								</span>
                                         </label>

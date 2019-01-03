@@ -13,6 +13,7 @@ import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.util.IpUtil;
+import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.minidao.pojo.MiniDaoPage;
@@ -98,6 +99,9 @@ public class StoreOrderController extends BaseController {
         if (StringUtil.isNotEmpty(storeOrder.getId())) {
             storeOrder = storeOrderService.getEntity(StoreOrderEntity.class, storeOrder.getId());
             req.setAttribute("storeOrder", storeOrder);
+        } else {
+            //获取当前登录人
+            req.setAttribute("username", ResourceUtil.getSessionUser().getRealName());
         }
         return new ModelAndView("com/nic/store/storeOrderIn-add");
     }
@@ -112,24 +116,44 @@ public class StoreOrderController extends BaseController {
         if (StringUtil.isNotEmpty(storeOrder.getId())) {
             storeOrder = storeOrderService.getEntity(StoreOrderEntity.class, storeOrder.getId());
             req.setAttribute("storeOrder", storeOrder);
+        } else {
+            //获取当前登录人
+            req.setAttribute("username", ResourceUtil.getSessionUser().getRealName());
         }
         return new ModelAndView("com/nic/store/storeOrderOut-add");
     }
 
     /**
-     * @desc：获取单据行项目
+     * @desc：获取入库单单据行项目
      * @author：justin
      * @date：2018-12-28 17:49
      */
-    @RequestMapping(params = "storeOrderLineList")
-    public ModelAndView storeOrderLineList(StoreOrderEntity storeOrder, HttpServletRequest req) {
+    @RequestMapping(params = "storeOrderInLineList")
+    public ModelAndView storeOrderInLineList(StoreOrderEntity storeOrder, HttpServletRequest req) {
         String orderNo = storeOrder.getOrderNo();
         if (StringUtil.isNotEmpty(orderNo)) {
             //查询-单据行项目
             List<StoreOrderLinePage> orderLines = storeOrderLineService.queryLinesByOrderNo(orderNo);
             req.setAttribute("orderLines", orderLines);
         }
-        return new ModelAndView("com/nic/store/storeOrderLineList");
+        return new ModelAndView("com/nic/store/storeOrderInLineList");
+    }
+
+    /**
+     * @desc：获取出库单单据行项目
+     * @author：justin
+     * @date：2018-12-28 17:49
+     */
+    @RequestMapping(params = "storeOrderOutLineList")
+    public ModelAndView storeOrderOutLineList(StoreOrderEntity storeOrder, HttpServletRequest req) {
+        String orderNo = storeOrder.getOrderNo();
+        if (StringUtil.isNotEmpty(orderNo)) {
+            //查询-单据行项目
+            List<StoreOrderLinePage> orderLines = storeOrderLineService.queryLinesByOrderNo(orderNo);
+            req.setAttribute("orderLines", orderLines);
+            req.setAttribute("orderNo", orderNo);
+        }
+        return new ModelAndView("com/nic/store/storeOrderOutLineList");
     }
 
     /**
