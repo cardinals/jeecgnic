@@ -39,6 +39,30 @@ public class StoreOrderLinePage implements Serializable {
      * 出入库数量
      */
     private Integer num;
+    /**
+     * 国资编号
+     */
+    private String matnrNo;
+    /**
+     * 厂家
+     */
+    private String vender;
+    /**
+     * 出厂编号
+     */
+    private String venderNo;
+    /**
+     * 使用地
+     */
+    private String usePlace;
+    /**
+     * 领用人
+     */
+    private String operatorName;
+    /**
+     * 领用日期
+     */
+    private String operatorTime;
 
     public String getId() {
         return id;
@@ -94,5 +118,53 @@ public class StoreOrderLinePage implements Serializable {
 
     public void setNum(Integer num) {
         this.num = num;
+    }
+
+    public String getMatnrNo() {
+        return matnrNo;
+    }
+
+    public void setMatnrNo(String matnrNo) {
+        this.matnrNo = matnrNo;
+    }
+
+    public String getVender() {
+        return vender;
+    }
+
+    public void setVender(String vender) {
+        this.vender = vender;
+    }
+
+    public String getVenderNo() {
+        return venderNo;
+    }
+
+    public void setVenderNo(String venderNo) {
+        this.venderNo = venderNo;
+    }
+
+    public String getUsePlace() {
+        return usePlace;
+    }
+
+    public void setUsePlace(String usePlace) {
+        this.usePlace = usePlace;
+    }
+
+    public String getOperatorName() {
+        return operatorName;
+    }
+
+    public void setOperatorName(String operatorName) {
+        this.operatorName = operatorName;
+    }
+
+    public String getOperatorTime() {
+        return operatorTime;
+    }
+
+    public void setOperatorTime(String operatorTime) {
+        this.operatorTime = operatorTime;
     }
 }

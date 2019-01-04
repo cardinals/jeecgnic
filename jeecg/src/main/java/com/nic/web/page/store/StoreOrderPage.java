@@ -44,7 +44,10 @@ public class StoreOrderPage implements Serializable {
      * 出入库时间
      */
     private String operatorTime;
-
+    /**
+     * 备注
+     */
+    private String notes;
     private List<StoreOrderLineEntity> orderLines;
 
     public String getId() {
@@ -109,5 +112,13 @@ public class StoreOrderPage implements Serializable {
 
     public void setOperatorTime(String operatorTime) {
         this.operatorTime = operatorTime;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }

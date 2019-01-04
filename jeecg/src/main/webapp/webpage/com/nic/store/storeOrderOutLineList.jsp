@@ -33,16 +33,16 @@
     <tr bgcolor="#E6E6E6">
         <td align="center" bgcolor="#EEEEEE" style="width: 25px;">序号</td>
         <td align="center" bgcolor="#EEEEEE" style="width: 25px;">操作</td>
-        <td align="center" bgcolor="#EEEEEE" style="width: 126px;">
+        <td align="center" bgcolor="#EEEEEE" style="width: 110px;">
             设备名称
         </td>
-        <td align="center" bgcolor="#EEEEEE" style="width: 50px;">
+        <td align="center" bgcolor="#EEEEEE" style="width: 30px;">
             单位
         </td>
-        <td align="center" bgcolor="#EEEEEE" style="width: 110px;">
+        <td align="center" bgcolor="#EEEEEE" style="width: 80px;">
             型号
         </td>
-        <td align="center" bgcolor="#EEEEEE" style="width: 110px;">
+        <td align="center" bgcolor="#EEEEEE" style="width: 80px;">
             规格
         </td>
         <c:if test="${orderNo==null }">
@@ -50,8 +50,20 @@
                 库存数
             </td>
         </c:if>
-        <td align="center" bgcolor="#EEEEEE" style="width: 110px;">
+        <td align="center" bgcolor="#EEEEEE" style="width: 60px;">
             出库数
+        </td>
+        <td align="center" bgcolor="#EEEEEE" style="width: 110px;">
+            国资编号
+        </td>
+        <td align="center" bgcolor="#EEEEEE" style="width: 110px;">
+            厂家
+        </td>
+        <td align="center" bgcolor="#EEEEEE" style="width: 110px;">
+            出厂编号
+        </td>
+        <td align="center" bgcolor="#EEEEEE" style="width: 140px;">
+            使用地
         </td>
     </tr>
     <tbody id="add_storeOrderLine_table">
@@ -66,21 +78,21 @@
                 <input id="matnr[0]" name="orderLines[0].matnr" type="hidden" datatype="*"/>
                 <input id="maktx[0]" name="orderLines[0].maktx" type="text" class="inputxt"
                        placeholder="点击选择设备" onclick="openMaraSelect(this);"
-                       style="width:120px;">
+                       style="width:110px;">
                 <label class="Validform_label" style="display: none;">设备名称</label>
             </td>
             <td align="center">
-                <input id="unit[0]" name="orderLines[0].unit" type="text" class="inputxt" style="width:50px;"
+                <input id="unit[0]" name="orderLines[0].unit" type="text" class="inputxt" style="width:30px;"
                        readonly="readonly">
                 <label class="Validform_label" style="display: none;">单位</label>
             </td>
             <td align="center">
-                <input id="model[0]" name="orderLines[0].model" type="text" class="inputxt" style="width:110px;"
+                <input id="model[0]" name="orderLines[0].model" type="text" class="inputxt" style="width:80px;"
                        readonly="readonly">
                 <label class="Validform_label" style="display: none;">型号</label>
             </td>
             <td align="center">
-                <input id="norms[0]" name="orderLines[0].norms" type="text" class="inputxt" style="width:110px;"
+                <input id="norms[0]" name="orderLines[0].norms" type="text" class="inputxt" style="width:80px;"
                        readonly="readonly">
                 <label class="Validform_label" style="display: none;">规格</label>
             </td>
@@ -93,9 +105,26 @@
                 </td>
             </c:if>
             <td align="center">
-                <input id="num[0]" name="orderLines[0].num" type="text" class="inputxt" style="width:110px;"
+                <input id="num[0]" name="orderLines[0].num" type="text" class="inputxt" style="width:60px;"
                        datatype="numrange" min="0" max="1000000">
                 <label class="Validform_label" style="display: none;">出库数</label>
+            </td>
+            <td align="center">
+                <input name="orderLines[0].matnrNo" type="text" class="inputxt" style="width:110px;">
+                <label class="Validform_label" style="display: none;">国资编号</label>
+            </td>
+            <td align="center">
+                <input name="orderLines[0].vender" type="text" class="inputxt" style="width:110px;">
+                <label class="Validform_label" style="display: none;">厂家</label>
+            </td>
+            <td align="center">
+                <input name="orderLines[0].venderNo" type="text" class="inputxt" style="width:110px;">
+                <label class="Validform_label" style="display: none;">出厂编号</label>
+            </td>
+            <td align="center">
+                <input name="orderLines[0].usePlace" type="text" class="inputxt" style="width:140px;"
+                       datatype="*">
+                <label class="Validform_label" style="display: none;">使用地</label>
             </td>
         </tr>
     </c:if>
@@ -113,22 +142,22 @@
                            datatype="*" value="${poVal.matnr }"/>
                     <input id="maktx[${stuts.index }]" name="orderLines[${stuts.index }].maktx" type="text"
                            placeholder="点击选择设备" onclick="openMaraSelect(this);"
-                           class="inputxt" style="width:120px;" value="${poVal.maktx }"/>
+                           class="inputxt" style="width:110px;" value="${poVal.maktx }"/>
                     <label class="Validform_label" style="display: none;">设备名称</label>
                 </td>
                 <td align="center">
                     <input id="unit[${stuts.index}]" name="orderLines[${stuts.index}].unit" type="text" class="inputxt"
-                           style="width:50px;" readonly="readonly" value="${poVal.unit }">
+                           style="width:30px;" readonly="readonly" value="${poVal.unit }">
                     <label class="Validform_label" style="display: none;">单位</label>
                 </td>
                 <td align="center">
                     <input id="model[${stuts.index}]" name="orderLines[${stuts.index}].model" type="text"
-                           class="inputxt" style="width:110px;" readonly="readonly" value="${poVal.model}">
+                           class="inputxt" style="width:80px;" readonly="readonly" value="${poVal.model}">
                     <label class="Validform_label" style="display: none;">型号</label>
                 </td>
                 <td align="center">
                     <input id="norms[${stuts.index}]" name="orderLines[${stuts.index}].norms" type="text"
-                           class="inputxt" style="width:110px;" readonly="readonly" value="${poVal.norms }">
+                           class="inputxt" style="width:80px;" readonly="readonly" value="${poVal.norms }">
                     <label class="Validform_label" style="display: none;">规格</label>
                 </td>
                 <c:if test="${orderNo==null }">
@@ -140,8 +169,28 @@
                 </c:if>
                 <td align="center">
                     <input id="num[${stuts.index}]" name="orderLines[${stuts.index }].num" type="text" class="inputxt"
-                           style="width:110px;" datatype="n" value="${poVal.num }"/>
+                           style="width:60px;" datatype="n" value="${poVal.num }"/>
                     <label class="Validform_label" style="display: none;">出库数</label>
+                </td>
+                <td align="center">
+                    <input name="orderLines[${stuts.index }].matnrNo" type="text" class="inputxt"
+                           style="width:110px;" value="${poVal.matnrNo }"/>
+                    <label class="Validform_label" style="display: none;">国资编号</label>
+                </td>
+                <td align="center">
+                    <input name="orderLines[${stuts.index }].vender" type="text" class="inputxt"
+                           style="width:110px;" value="${poVal.vender }"/>
+                    <label class="Validform_label" style="display: none;">厂家</label>
+                </td>
+                <td align="center">
+                    <input name="orderLines[${stuts.index }].venderNo" type="text" class="inputxt"
+                           style="width:110px;" value="${poVal.venderNo }"/>
+                    <label class="Validform_label" style="display: none;">出产编号</label>
+                </td>
+                <td align="center">
+                    <input name="orderLines[${stuts.index }].usePlace" type="text" class="inputxt"
+                           style="width:140px;" value="${poVal.usePlace }"/>
+                    <label class="Validform_label" style="display: none;">使用地</label>
                 </td>
             </tr>
         </c:forEach>

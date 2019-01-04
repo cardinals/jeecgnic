@@ -38,6 +38,10 @@ public class StoreOrderEntity extends BaseEntity implements Serializable {
      * 出入库时间
      */
     private String operatorTime;
+    /**
+     * 备注
+     */
+    private String notes;
 
     @Column(name = "order_no")
     public String getOrderNo() {
@@ -82,5 +86,14 @@ public class StoreOrderEntity extends BaseEntity implements Serializable {
 
     public void setOperatorTime(String operatorTime) {
         this.operatorTime = operatorTime;
+    }
+
+    @Column(name = "notes")
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }

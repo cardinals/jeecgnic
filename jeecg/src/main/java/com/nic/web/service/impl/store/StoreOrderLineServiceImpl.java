@@ -4,6 +4,7 @@ import com.nic.web.dao.IStoreOrderLineDao;
 import com.nic.web.page.store.StoreOrderLinePage;
 import com.nic.web.service.store.IStoreOrderLineService;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
+import org.jeecgframework.minidao.pojo.MiniDaoPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,5 +28,10 @@ public class StoreOrderLineServiceImpl extends CommonServiceImpl implements ISto
     @Override
     public List<StoreOrderLinePage> queryLinesByOrderNo(String orderNo) {
         return storeOrderLineDao.queryLinesByOrderNo(orderNo);
+    }
+
+    @Override
+    public MiniDaoPage queryMaraUseReport(StoreOrderLinePage orderLine, int page, int rows) {
+        return storeOrderLineDao.queryMaraUseReport(orderLine, page, rows);
     }
 }

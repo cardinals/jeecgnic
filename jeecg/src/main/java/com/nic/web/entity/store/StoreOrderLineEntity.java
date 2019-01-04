@@ -30,6 +30,23 @@ public class StoreOrderLineEntity extends BaseEntity implements Serializable {
      * 出入库数量
      */
     private Integer num;
+    /**
+     * 国资编号
+     */
+    private String matnrNo;
+    /**
+     * 厂家
+     */
+    private String vender;
+    /**
+     * 出厂编号
+     */
+    private String venderNo;
+    /**
+     * 使用地
+     */
+    private String usePlace;
+
     @Column(name = "order_no")
     public String getOrderNo() {
         return orderNo;
@@ -57,4 +74,39 @@ public class StoreOrderLineEntity extends BaseEntity implements Serializable {
         this.num = num;
     }
 
+    @Column(name = "matnr_no")
+    public String getMatnrNo() {
+        return matnrNo;
+    }
+
+    public void setMatnrNo(String matnrNo) {
+        this.matnrNo = matnrNo;
+    }
+
+    @Column(name = "vender")
+    public String getVender() {
+        return vender;
+    }
+
+    public void setVender(String vender) {
+        this.vender = vender;
+    }
+
+    @Column(name = "vender_no")
+    public String getVenderNo() {
+        return venderNo;
+    }
+
+    public void setVenderNo(String venderNo) {
+        this.venderNo = venderNo;
+    }
+
+    @Column(name = "use_place")
+    public String getUsePlace() {
+        return usePlace;
+    }
+
+    public void setUsePlace(String usePlace) {
+        this.usePlace = usePlace;
+    }
 }

@@ -172,15 +172,15 @@ public class StoreOrderController extends BaseController {
             if (StringUtil.isNotEmpty(orderType)) {
                 if (CollectionUtils.isNotEmpty(orderLines)) {
                     //验证行项是否存在相同的物料
-                    boolean flag = checkMatnr(orderLines);
-                    if (flag) {
-                        j.setMsg("保存失败：设备信息行项上存在相同的设备！请检查并修改后再提交！");
-                        j.setSuccess(false);
-                    } else {
-                        storeOrderService.saveStoreOrder(storeOrder, orderLines);
-                        j.setMsg("添加成功");
-                        j.setSuccess(true);
-                    }
+//                    boolean flag = checkMatnr(orderLines);
+//                    if (flag) {
+//                        j.setMsg("保存失败：设备信息行项上存在相同的设备！请检查并修改后再提交！");
+//                        j.setSuccess(false);
+//                    } else {
+                    storeOrderService.saveStoreOrder(storeOrder, orderLines);
+                    j.setMsg("添加成功");
+                    j.setSuccess(true);
+//                    }
                 } else {
                     j.setMsg("请添加设备信息");
                     j.setSuccess(false);
@@ -265,5 +265,35 @@ public class StoreOrderController extends BaseController {
         }
         logger.info("[" + IpUtil.getIpAddr(req) + "][删除入库单]" + j.getMsg());
         return j;
+    }
+
+    /**
+     * @desc：设备使用情况跟踪报表
+     * @author：justin
+     * @date：2019-01-04 15:36
+     */
+    @RequestMapping(params = "maraUseReport")
+    public ModelAndView maraUseReport(HttpServletRequest req) {
+        return new ModelAndView("com/nic/store/maraUseReportList");
+    }
+
+    /**
+     * @desc：分页查询设备使用情况
+     * @author：justin
+     * @date：2019-01-04 15:38
+     */
+    @RequestMapping(params = "queryMaraUseReport")
+    public void queryMaraUseReport(StoreOrderLinePage orderLine, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+        //手工转换minidao查询规则
+        if (oConvertUtils.isNotEmpty(orderLine.getMaktx())) {
+            orderLine.setMaktx(orderLine.getMaktx().replace("*", "%"));
+        }
+        if (oConvertUtils.isNotEmpty(orderLine.getMatnrNo())) {
+            orderLine.setMatnrNo(orderLine.getMatnrNo().replace("*", "%"));
+        }
+        MiniDaoPage maraUseList = storeOrderLineService.queryMaraUseReport(orderLine, dataGrid.getPage(), dataGrid.getRows());
+        dataGrid.setResults(maraUseList.getResults());
+        dataGrid.setTotal(maraUseList.getTotal());
+        TagUtil.datagrid(response, dataGrid);
     }
 }

@@ -2,6 +2,7 @@ package com.nic.web.service.store;
 
 import com.nic.web.page.store.StoreOrderLinePage;
 import org.jeecgframework.core.common.service.CommonService;
+import org.jeecgframework.minidao.pojo.MiniDaoPage;
 
 import java.util.List;
 
@@ -20,4 +21,11 @@ public interface IStoreOrderLineService extends CommonService {
      * @date：2019-01-01 09:50
      */
     public List<StoreOrderLinePage> queryLinesByOrderNo(String orderNo);
+
+    /**
+     * @desc：分页查询设备使用情况
+     * @author：justin
+     * @date：2019-01-04 15:40
+     */
+    public MiniDaoPage queryMaraUseReport(StoreOrderLinePage orderLine, int page, int rows);
 }
